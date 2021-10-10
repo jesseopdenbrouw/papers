@@ -1,0 +1,480 @@
+\documentclass[a4paper,12pt,oneside]{article}
+
+\author{Jesse op den Brouw}
+\title{Overflow-detectie in de 2's complement representatie}
+\date{\today}
+
+\usepackage[dutch]{babel}
+
+%% Making captions nicer...
+\usepackage[font=footnotesize,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\captionsetup[table]{justification=centering,singlelinecheck=false,skip=0pt}
+\captionsetup[figure]{belowskip=-0.5\baselineskip}
+
+%\def\Hrulefill{\vspace{-\baselineskip}\leavevmode\leaders\hrule height 0.1pt \hfill\kern0pt\relax} 
+
+%% Use the AMS Mathematical characters
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\setlength{\mathindent}{1em}
+\DeclareMathSymbol{,}{\mathord}{letters}{"3B}
+%% A bit nicer bar / overline command
+\newcommand*{\oline}[1]{\overline{#1\mathstrut}}
+\usepackage{amsthm}
+
+\newtheoremstyle{own}%
+    {0.3\baselineskip}% Space above
+    {-10pt}% Space below
+    {}% Body font
+    {}% Indent amount
+    {\bfseries}% Theorem head font
+    {.}% Punctuation after theorem head
+    {\newline}% Space after theorem head
+    {}% Theorem head spec
+
+\theoremstyle{own}
+\newtheorem{example}{Voorbeeld}[section]
+
+\usepackage{float}
+\usepackage{booktabs}
+%\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7\baselineskip}
+
+\usepackage{array}
+\usepackage{pict2e}
+\usepackage{calc}
+\usepackage{color}
+
+\usepackage[stretch=10]{microtype}
+
+
+\begin{document}
+\maketitle
+
+\vfill
+
+%\begin{abstract}
+%In de digitale techniek worden rekenschakelingen ontworpen die gebruik maken
+%van de 2's complement representatie. Hierin worden positieve en negatieve
+%getallen voorgesteld
+%Dat levert eenvoudige, compacte en snelle hardware op.
+%De keerzijde is dat het voor mensen niet eenvoudig is om (de waarde van) de
+%getallen direct te herkennen.
+%
+%Daarnaast levert het gebruik van de 2's complement representatie nog een
+%probleem om: het resultaat van een bewerking kan buiten het bereik van de
+%representatie liggen. Er is dan sprake van overflow.
+%
+%Het detecteren van een overflow is een vereiste om de berekeningen in goede
+%banen te laten lopen. Natuurlijk is de vraag: wat moet er gebeuren als er
+%overflow geconstateerd is.
+%\end{abstract}
+
+\newpage
+\section{Introductie}
+In de digitale techniek worden rekenschakelingen ontworpen die gebruik maken
+van de 2's complement representatie. Hierin worden positieve en negatieve
+getallen uit een bepaald bereik voorgesteld op een ander niet-negatief
+domein [Thijssen, 1999].
+Dat levert eenvoudige, compacte en snelle hardware op.
+De keerzijde is dat het voor mensen niet eenvoudig is om (de waarde van) van
+de negatieve getallen direct te herkennen.
+
+Daarnaast levert het gebruik van de 2's complement representatie nog een
+probleem op: het resultaat van een bewerking kan buiten het bereik van de
+representatie liggen. Er is dan sprake van \textsl{overflow}.
+
+Het detecteren van een overflow is een vereiste om de berekeningen in goede
+banen te laten lopen. Gelukkig is het detecteren van overflow geen moeilijke
+klus. Natuurlijk is de vraag: wat moet er gebeuren als er
+overflow geconstateerd is. Dat is aan de ontwerper van de schakeling.
+
+In de onderstaande paragrafen wordt overflowdetectie bij optellen en
+aftrekken besproken.
+
+\section{De 2's complement representatie}
+In het dagelijkse leven gebruiken wij de zogenaamde teken-en-grootte
+representatie om getallen weer te geven en berekeningen uit te voeren.
+Het voordeel van deze representatie is dat in \'e\'en oogopslag de grootte
+van het getal te zien is, of het nou positief of negatief is. Zo zijn de
+getallen $+13$ en $-13$ even groot maar tegengesteld.
+
+Berekeningen uitvoeren in deze representatie is lastig.
+Willen we dit omzetten naar een digitale schakeling, dan levert dat erg
+veel hardware op. Beter is om een complement representatie te gebruiken.
+Complement representaties zijn gebaseerd op \textsl{modulair rekenen}. In
+hardware wordt dat al van nature gerealiseerd omdat er met een eindig aantal
+bits wordt gerekend.
+
+Zo zijn met vier bits de getallen 0 t/m 15 ($2^4-1$) te realiseren, er zijn
+16 ($2^4$) combinaties. Een optelling van twee getallen van vier bits levert
+een antwoord van vijf bits op, maar het vijfde bit wordt niet opgeslagen, er
+zijn immers maar vier bits beschikbaar. Alle berekeningen zijn dus
+\textsl{modulo 2}$^4$. Hieronder een paar voorbeelden.
+
+\hrulefill
+\begin{example}
+\label{exa:somemode24examples}
+\begin{equation*}
+\begin{array}{rcrcr}
+(0 + 0)   \mod 2^4  &=&   0 \mod 2^4  &=&   0 \mod 2^4 \\
+(10 + 5)  \mod 2^4  &=&  15 \mod 2^4  &=&  15 \mod 2^4 \\
+\\                                       
+(13 + 9)  \mod 2^4  &=&  22 \mod 2^4  &=&   6 \mod 2^4 \\
+(15 + 15) \mod 2^4  &=&  30 \mod 2^4  &=&  14 \mod 2^4 \\
+\\                                       
+(14 + 15) \mod 2^4  &=&  29 \mod 2^4  &=&  13 \mod 2^4 \\
+(13 + 15) \mod 2^4  &=&  28 \mod 2^4  &=&  12 \mod 2^4 \\
+(12 + 15) \mod 2^4  &=&  27 \mod 2^4  &=&  11 \mod 2^4
+\end{array}
+\end{equation*}
+\end{example}
+\hrulefill
+
+Wat bij de laatste drie voorbeelden opvalt, is dat wanneer er bij een getal~15
+wordt opgeteld, het antwoord \'e\'en lager is dan dat getal. We kunnen een
+getal dus met \'e\'en verlagen door er 15 bij op te tellen. Merk op dat 15
+gelijk is aan $2^4-1$.
+
+%%In de 2's complement representatie wordt een negatief getal voorgesteld door
+%%het op te tellen bij een macht van 2. Zo kan het getal $-m$ worden afgebeeld
+%%als
+%%%
+%%\begin{equation}
+%%-m \quad\leftrightarrow\quad 2^n - m
+%%\end{equation}
+%%
+%%waarbij $m$ niet willekeurig groot mag zijn.
+%%Bij deze representatie worden $n$ bits gebruikt zodat alle berekeningen
+%%modulo $2^n$ zijn.
+
+We kunnen dit aantonen door de optelling van twee
+$n$-bits getallen $a$ en~$b$:
+%
+\begin{equation}
+\label{eqn:aplusbmod2n}
+a + b \equiv a + b + 2^n \equiv a + (2^n + b) \pmod{2^n}
+\end{equation}
+%
+De operator $\equiv$ betekent dat de leden in \eqref{eqn:aplusbmod2n}
+\textsl{congruent modulo} zijn.
+%
+Vervangen we nu $b$ door $-b$ dan volgt uit \eqref{eqn:aplusbmod2n}
+%
+\begin{equation}
+\label{eqn:aminbisaplus2nminb}
+a + (-b) \equiv a + (2^n + (- b)) \equiv a + (2^n - b) \pmod{2^n}
+\end{equation}
+%
+We kunnen $-b$ dus representeren door het op te tellen bij een macht van 2:
+%
+\begin{equation}
+\label{equ:minusbto2nminusb}
+-b \equiv 2^n + (-b) \equiv 2^n - b \pmod{2^n}
+\end{equation}
+%
+Merk trouwens op dat $b$ niet willekeurig groot mag zijn.
+We geven nu twee voorbeelden.
+
+\hrulefill
+\begin{example}
+\label{exa:convdecto2scomp}
+Stel $n = 4$ en $b = -3$. Dan volgt uit \eqref{equ:minusbto2nminusb} dat $-3$
+gerepresenteerd kan worden door $2^4-3 = 16 - 3 = 13$.
+
+Stel $n = 8$ en $b = -58$. Dan volgt uit \eqref{equ:minusbto2nminusb} dat $-8$
+gerepresenteerd kan worden door $2^8-58 = 256 - 58 = 198$.
+\end{example}%
+\unskip\hrulefill
+
+%%%De reden voor het gebruik van deze representatie is dat de logische schakeling
+%%%voor het realiseren van optellen en aftrekken veel eenvoudiger is dan
+%%%bij de bekende teken-en-grootte representatie.
+
+We willen graag met $n$ bits een gelijkmatige verdeling van positieve en
+negatieve getallen dus we zoeken naar een balans in het aantal negatieve
+en positieve getallen. De meest voor de hand liggende verdeling is om de
+heeft van de combinaties voor de positieve getallen te gebruiken en de
+andere helft voor de negatieve getallen. We gebruiken \'e\'en bit om het
+teken aan te geven zodat er $n-1$ bits overblijven voor de grootte.
+Hieruit volgt dat voor het bereik van eerder genoemde getal $b$ geldt
+%
+\begin{equation}
+\label{eqn:bereik2scomp}
+-2^{n-1} \leq b \leq 2^{n-1}-1
+\end{equation}
+%
+Te zien is dat de verdeling niet symmetrisch is. Er is \'e\'en meer getal
+negatief dan positief. Dat is te verklaren uit het feit dat het getal 0
+als positief wordt gezien. Een nadeel is dat voor het getal $-2^{n-1}$ geen
+tegengesteld getal gerepresenteerd kan worden, er bestaat dus geen $+2^{n-1}$.
+Er kan trouwens voor elke willekeurige verdeling% van de positieve en negatieve
+%getallen
+gekozen worden zolang er maar $2^n$ mogelijke combinaties te maken
+zijn, maar op praktische gronden is gekozen voor de verdeling
+in \eqref{eqn:bereik2scomp}.
+
+Stel we nemen twee getallen $B$ en $b$ zodanig dat
+%
+\begin{equation}
+\begin{split}
+0 \leq b \leq 2^{n-1}-1 &\;\leftrightarrow\; B = b \\
+-2^{n-1} \leq b \leq -1 &\;\leftrightarrow\; B = 2^n + b \\
+\end{split}
+\end{equation}
+%
+dan wordt $B$ de \textsl{two's complement representatie} van $b$ genoemd.
+
+Kijken we naar een positief getal en coderen dit met bits, dan zien we
+dat het getal met $n$ bits ligt in het bereik $0$ -- $2^{n-1}-1$. Het meest
+significante bit een $0$. Een negatief getal wordt geschreven als $2^n - m$
+met $m$ in het bereik van $1$ -- $2^{n-1}$ zodat het meest significante bit
+een $1$ is. De meest significante bits worden tekenbits genoemd.
+
+%\begin{example}
+%\label{exa:nummer1}
+%Test
+%\end{example}
+%
+%Zie voorbeeld \ref{exa:nummer1}.
+
+\section{Overflow bij optelling}
+Overflow in de 2's complement representatie kan eenvoudig worden gedetecteerd
+aan de hand van de te bewerken getallen, het resultaat en de bewerking.
+
+% We
+%behandelen eerst de optelling, daarna de aftrekking.
+
+Bij een optelling van twee 2's complement getallen kan een overflow alleen
+maar optreden als de twee getallen hetzelfde teken hebben, met de nadruk op
+\textsl{kan}. Dat is te zien in de onderstaande vergelijkingen. Hierbij worden
+de grenzen van de 2's complement representatie opgezocht. Deze grenzen zijn
+$-2^{n-1}$ en $-1$ voor negatieve getallen en $0$ en $2^{n-1}-1$ voor
+positieve getallen.
+%
+\begin{align}
+\label{eqn:maybeoverflowsamesigns1}
+      -2^{n-1} + -2^{n-1} &= -2^{n} \\
+\label{eqn:maybeoverflowsamesigns2}
+              (-1) + (-1) &= -2 \\
+\label{eqn:maybeoverflowsamesigns3}
+                    0 + 0 &= 0 \\
+\label{eqn:maybeoverflowsamesigns4}
+(2^{n-1}-1) + (2^{n-1}-1) &= 2^n -2
+\end{align}
+%
+De vergelijkingen \ref{eqn:maybeoverflowsamesigns1} en
+\ref{eqn:maybeoverflowsamesigns4} leveren een overflow op, de vergelijkingen
+\ref{eqn:maybeoverflowsamesigns2} en \ref{eqn:maybeoverflowsamesigns3} doen
+dat niet.
+
+Als we twee getallen met verschillend teken optellen kan er nooit overflow
+optreden. Ook dat is eenvoudig aan te tonen. We zoeken hiervoor weer de grenzen
+van het bereik van de 2's complement representatie op.
+%
+\begin{align}
+\label{eqn:nooverflowdiffsigns1}
+        -2^{n-1} + 0 &= -2^{n-1} \\
+              -1 + 0 &= -1 \\
+-2^{n-1} + (2^{n-1}-1) &= -1 \\
+\label{eqn:nooverflowdiffsigns2}
+      -1 + (2^{n-1}-1) &= 2^{n-1}-2
+\end{align}
+%
+De antwoorden van vergelijkingen \eqref{eqn:nooverflowdiffsigns1} t/m
+\eqref{eqn:nooverflowdiffsigns2} liggen allemaal in het bereik van de 2's
+complement representatie.
+
+Laten er vergelijking \eqref{eqn:maybeoverflowsamesigns1} en
+\eqref{eqn:maybeoverflowsamesigns2} nog eens bekijken waarbij we de optelling
+nu modulo $2^n$ beschouwen, dat wil zeggen dat het antwoord in $n$ bits moet
+passen met zoals is gegeven
+in \eqref{eqn:bereik2scomp}. Uit deze
+vergelijkingen is op te maken dat de optelling van twee negatieve getallen
+een antwoord tussen $-2$ en $-2^n$ oplevert. Bij alle antwoorden die kleiner
+zijn dan $-2^{n-1}$ is er sprake van overflow. We defini\"eren nu een getal
+$p$ zodanig dat
+\begin{equation}
+-2^{n-1} + p < -2^{n-1} \qquad\qquad \mathrm{(met }-2^{n-1} \leq p \leq -1\mathrm{)}
+\end{equation}
+%
+Dan volgt daaruit
+%
+%\begin{equation}
+%\label{eqn:negoverflow}
+%   -2^{n-1} + p \mod 2^n = -2^{n-1} +p +2^{n} \mod 2^n = 2^{n-1} +p \mod 2^n
+%\end{equation}
+\begin{equation}
+\label{eqn:negoverflow}
+   -2^{n-1} + p \equiv -2^{n-1} +p +2^{n} \equiv 2^{n-1} +p \pmod{2^n}
+\end{equation}
+%
+Vullen we in \eqref{eqn:negoverflow} alle mogelijke waarden van $p$ in dan
+volgt dat bij een overflow bij optelling van twee negatieve getallen het
+antwoord positief wordt.
+
+We herhalen het bovenstaande voor de optelling van twee positieve getallen.
+Het antwoord van deze optelling ligt tussen $0$ en $2^n-2$. Zie hiervoor de
+vergelijkingen \eqref{eqn:maybeoverflowsamesigns3} en
+\eqref{eqn:maybeoverflowsamesigns4}. Bij alle antwoorden de groter zijn dan
+$2^{n-1}-1$ is er sprake van overflow. We defini\"eren een getal $q$ zodanig dat
+\begin{equation}
+2^{n-1} -1 + q > 2^{n-1}-1 \qquad\qquad \mathrm{(met\ } 1 \leq q \leq 2^{n-1}-1\mathrm{)}
+\end{equation}
+%
+Dan volgt hieruit
+%
+%\begin{equation}
+%\label{eqn:posoverflow}
+%(2^{n-1}-1) + q \mod 2^n = (2^{n-1}-1) + q -2^n \mod 2^n = -2^{n-1} + q \mod 2^n
+%\end{equation}
+\begin{equation}
+\label{eqn:posoverflow}
+(2^{n-1}-1) + q \equiv (2^{n-1}-1) + q -2^n \equiv -2^{n-1} -1 + q \pmod{2^n}
+\end{equation}
+In \eqref{eqn:posoverflow} vullen we alle mogelijke waarden van $q$ in dan
+volgt dat bij een overflow bij optelling van twee positieve getallen het
+antwoord negatief wordt.
+
+Resumerend kunnen we zeggen dat
+
+\bigskip
+\begin{center}
+\setlength{\fboxsep}{0.8em}%
+\fbox{\begin{minipage}{0.9\textwidth}
+\centering\textbf{Overflow treedt op als de tekens van de op te tellen
+getallen gelijk zijn en ongelijk zijn aan het teken van het antwoord}
+\end{minipage}}
+\end{center}
+\bigskip
+
+We geven twee voorbeelden waarbij overflow optreedt. We gebruiken hiervoor
+getallen van vier bits.
+
+\hrulefill
+\begin{example}
+In dit voorbeeld worden getallen met gelijk teken opgeteld met
+als resultaat dat het teken van het antwoord verandert.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ r c l p{2cm} r c l}
+%  1) 1110 &   & carry's & & 0) 1000 &   & carry's\\
+      1001 &   & $-7$    & &    0101 &   & $+5$   \\
+      1101 & + & $-3$    & &    0110 & + & $+6$   \\  \cmidrule{1-1}\cmidrule{5-5}
+   1) 0110 &   & $-10$?  & & 0) 1011 &   & $+11$? \\
+  \end{tabular}
+\end{table}
+\end{example}
+\unskip\hrulefill
+
+%De twee getallen 1) en 0) geven de uitgaande carry's aan.
+%Uit de twee bovenstaande voorbeelden is eenvoudig te bepalen of er
+%overflow is opgetreden door functie \eqref{eqn:funcoverflowadd} uit
+%te werken.
+Uit bovenstaande voorbeelden is eenvoudig te bepalen of er overflow is
+opgetreden door de tekenbits te vergelijken.
+
+Stel dat we de op te telken getallen $a$ en $b$ noemen met als antwoord getal
+$s$ (met $a$, $b$ en $s$ alle $n$ bits getallen), dan kunnen we de detectie
+van overflow als volgt in een functie beschrijven:
+%
+\begin{equation}
+\label{eqn:overflowaddhighlevel}
+V_{add} = \left\lbrace (a_{n-1} = b_{n-1}) \neq s_{n-1} \right\rbrace
+\end{equation}
+%
+Zetten we deze functie om in een schakelfunctie dan volgt:
+%
+\begin{equation}
+\begin{split}
+\label{eqn:funcoverflowadd}
+V_{add} &= \oline{a_{n-1}}\cdot\oline{b_{n-1}}\cdot s_{n-1} + a_{n-1}\cdot b_{n-1}\cdot\oline{s_{n-1}}
+\end{split}
+\end{equation}
+%
+We bekijken nu de optelling van alleen de tekenbits van de getallen en nemen
+daar in de ingaande en uitgaande carry's mee. We kunnen de optelling dan
+uitschrijven als:
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ r c l}
+           $C_{n-1}$... &   & ingaande carry's \\
+           $a_{n-1}$... &   & getal $A$    \\
+           $b_{n-1}$... & + & getal $B$   \\  \cmidrule{1-1}
+    $C_n$) $s_{n-1}$... &   & uitkomst $S$ en uitgaande carry  \\
+  \end{tabular}
+\end{table}
+\unskip%
+
+Hierin zijn $C_{n-1}$ en $C_n$ resp.\@ de ingaande en uitgaande carry's.
+We vullen nu voor $a_{n-1}$, $b_{n-1}$ en $s_{n-1}$ alle mogelijke combinaties
+is en berekenen daaruit de waarden voor $C_n$ en $C_{n-1}$.
+
+$a_{n-1}=0$, $b_{n-1}=0$, $s_{n-1}=0$. Uit de optelling van $a_{n-1}$ en
+$b_{n-1}$ volgt dat $s_{n-1}=0$. Om deze optelling kloppend te maken moet
+$C_{n-1} = 0$ zijn en dan volgt automatisch dat $C_n = 0$.
+
+$a_{n-1}=0$, $b_{n-1}=0$, $s_{n-1}=1$. De optelling van de twee sombits levert
+een 1 in het antwoord. Dat kan alleen als $C_{n-1} = 1$ en dan volgt dat
+$C_n = 0$. Tevens is er overflow opgetreden.
+
+$a_{n-1}=0$, $b_{n-1}=1$, $s_{n-1}=0$. Om uit de optelling van $0+1$ een
+$0$ in het sombit te krijgen, moet $C_{n-1} = 1$ zijn. Dan volgt dat
+$C_n = 1$, immers $1+0+1=10$.
+
+$a_{n-1}=0$, $b_{n-1}=1$, $s_{n-1}=1$. Hieruit volgt dan $C_{n-1} = 0$ en
+$C_n = 0$.
+
+$a_{n-1}=1$, $b_{n-1}=0$, $s_{n-1}=0$. Deze situatie is vergelijkbaar met
+de derde situatie.
+
+$a_{n-1}=1$, $b_{n-1}=0$, $s_{n-1}=1$. Deze situatie is vergelijkbaar met
+de vierde situatie.
+
+$a_{n-1}=1$, $b_{n-1}=1$, $s_{n-1}=0$. Het optellen van $1+1$ levert als
+sombit een $0$ op, dat kan alleen als $C_{n-1} = 0$. Verder volgt dat 
+$C_n = 1$. Tevens is er overflow opgetreden.
+
+$a_{n-1}=1$, $b_{n-1}=1$, $s_{n-1}=1$. Het optellen van $1+1$ levert als
+sombit een $1$ op, dat kan alleen als $C_{n-1} = 1$. Verder volgt dat 
+$C_n = 1$.
+
+
+We stellen voor alle combinaties van $a_{n-1}$, $b_{n-1}$ en $s_{n-1}$ een
+waarheidstabel op en tonen hierin de carry's en of er overflow optreedt.
+
+\begin{table}[ht!]
+	\centering
+	\caption{Relaties tussen overflow en de carry's bij optelling van twee getallen}
+	\label{tab:ovdetadd}
+	\begin{tabular}{cccccccc}
+	\toprule
+	$a_{n-1}$ & $b_{n-1}$ & $s_{n-1}$ & & $C_n$ & $C_{n-1}$ & & $V$ \\ \midrule
+	  0   &   0   &   0   & &   0   &   0   & &  0  \\
+	  0   &   0   &   1   & &   0   &   1   & &  1  \\
+	  0   &   1   &   0   & &   1   &   1   & &  0  \\
+	  0   &   1   &   1   & &   0   &   0   & &  0  \\ \addlinespace[0.75ex]
+	  1   &   0   &   0   & &   1   &   1   & &  0  \\
+	  1   &   0   &   1   & &   0   &   0   & &  0  \\
+	  1   &   1   &   0   & &   1   &   0   & &  1  \\
+	  1   &   1   &   1   & &   1   &   1   & &  0  \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+Uit tabel \ref{tab:ovdetadd} blijkt dat overflow optreedt als $C_nC_{n-1} = 01$
+ of $C_nC_{n-1} = 10$.
+
+\begin{equation}
+\setlength{\fboxsep}{6pt}
+\label{eqn:overflowcncn1}
+\boxed{V_{add} = C_n \oplus C_{n-1}}
+\end{equation}
+
+Overflow treedt op als bij de op als bij optelling van de tekenbits de ingaande
+en uitgaande carry's ongelijk zijn.
+
+
+\end{document}

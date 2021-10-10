@@ -1,0 +1,113 @@
+\documentclass[a4paper,11pt,oneside,fleqn]{article}
+
+
+\title{Schrijfwijzer technisch verslag opleiding Elektrotechniek}
+\author{Jesse op den Brouw$^*$ \and Harry Broeders\thanks{Opleiding Elektrotechniek, De Haagse Hogeschool}}
+\date{\today}
+
+
+
+%\setlength{\parindent}{0pt}
+\usepackage{parskip}
+
+%% Gebruik de nederlandse taal
+\usepackage[dutch]{babel}
+
+% Subliminal refinements towards typographical perfection
+\usepackage[stretch=10]{microtype}
+
+%% Zet page layout
+\usepackage[a4paper,bindingoffset=0.2in,left=.9in,right=0.9in,top=1in,bottom=1in,footskip=.40in]{geometry}
+
+%% Making captions nicer...
+\usepackage[font=footnotesize,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\captionsetup[table]{justification=raggedright,singlelinecheck=off}
+
+\usepackage[bottom]{footmisc}
+\usepackage{graphicx}
+\usepackage{framed}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabu}
+
+%% Use the AMS Mathematical characters
+\usepackage{mathtools}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+\setlength{\mathindent}{1cm}
+
+% http://practicaltypography.com/charter.html zegt:
+% Charter was designed by Matthew Carter in 1987 as a body text font that would hold up well on low-resolution output devices of the day - fax machines and 300 dpi laser printers. While 300 dpi printing is long gone, most of todayâ€™s computer displays operate far below 300 dpi. Charter, unsurprisingly, holds up admirably well as a screen font.
+% charter voor tekst en math
+\usepackage{charter}
+\usepackage[bitstream-charter]{mathdesign}
+%\usepackage[charter]{mathdesign}
+\usepackage[scaled]{berasans}
+% Zie http://w3facility.org/question/conflict-between-mathdesign-and-memoir-chapterstyle-ell/
+\makeatletter
+\def\hrulefill{\leavevmode\leaders \hrule height \rulethickness \hfill\kern\z@}
+\makeatletter
+
+%% Set input encoding to ISO-8859-1 (latin1)
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+
+% http://archive.cs.uu.nl/mirror/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf
+\usepackage[%
+    backend=biber,%
+    backref=true,%
+    sorting=none,%
+    style=numeric,sortcites%
+]{biblatex}
+\addbibresource{bibliography.bib}
+
+\usepackage[font=footnotesize,format=plain,labelfont=bf,textfont=sl]{caption}
+%\captionsetup[table]{justification=raggedright,singlelinecheck=off,skip=0pt}
+\captionsetup[table]{position=top,justification=raggedright,singlelinecheck=false,skip=5pt}
+\captionsetup[figure]{belowskip=-0.5\baselineskip}
+
+%%
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    breaklinks=true,
+    %linkcolor=blue,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    filecolor=blue,
+    %pdftitle=\title{},% werkt in dit geval niet omdat \Cpp{} commando hier niet mag
+    pdftitle=\title{},
+    pdfauthor=\author{},
+    pdfdisplaydoctitle=true,
+    pdfstartview=FitH,
+    %TODO uitzetten in definitieve versie?
+    %pdfpagemode=UseNone
+    %TODO aanzetten in definitieve versie?
+    %pdfpagelayout=TwoPageRight
+}
+
+%\renewcommand{\arraystretch}{1.1}
+%\setlength{\parskip}{\smallskipamount}
+
+\begin{document}
+
+\section*{Proof consensus theorem}
+
+Proof of the consensus theorem starts with expanding the last product term into
+two minterms. Then combine the minterms with the other product terms.
+
+\begin{equation}
+\begin{split}
+f &= x\cdot y + \overline{x}\cdot z + y\cdot z \\
+  &= x\cdot y + \overline{x}\cdot z + 1\cdot y\cdot z \\
+  &= x\cdot y + \overline{x}\cdot z + (\overline{x}+x)\cdot y\cdot z \\
+  &= x\cdot y + \overline{x}\cdot z + \overline{x}\cdot y\cdot z + x\cdot y\cdot z \\
+  &= x\cdot y + x\cdot y\cdot z + \overline{x}\cdot z + \overline{x}\cdot y\cdot z \\
+  &= x\cdot (y + y\cdot z) + \overline{x}\cdot (z + y\cdot z) \\
+  &= x\cdot (y) + \overline{x}\cdot (z) \\
+  &= x\cdot y + \overline{x}\cdot z \\
+\end{split}
+\end{equation}
+
+\end{document}

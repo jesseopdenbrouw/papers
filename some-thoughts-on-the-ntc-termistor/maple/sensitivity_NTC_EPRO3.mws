@@ -1,0 +1,379 @@
+{VERSION 6 0 "IBM INTEL NT" "6.0" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 1 12 255 0 0 1 2 1 2 
+2 1 2 0 0 0 1 }{CSTYLE "2D Output" -1 20 "Times" 1 12 0 0 255 1 2 2 2 
+2 2 2 0 0 0 1 }{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "Times" 1 12 
+0 0 0 1 2 2 2 2 2 2 1 1 1 1 }1 1 0 0 0 0 2 0 2 0 2 2 0 1 }{PSTYLE "Map
+le Output" -1 11 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 2 2 
+1 1 1 1 }3 1 0 0 0 0 2 0 2 0 2 2 0 1 }{PSTYLE "Maple Plot" -1 13 1 
+{CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 2 2 1 1 1 1 }3 1 0 0 0 
+0 2 0 2 0 2 2 0 1 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 97 "Dit is het Maple-bestand waarin wordt wee
+rgegeven hoe de gevoeligheid van de schakeling is, zoals" }}{PARA 0 "
+" 0 "" {TEXT -1 76 "beschreven in het document \"Gevoelingheid weersta
+ndnetwerk bij gebruik NTC\"." }}{PARA 0 "" 0 "" {TEXT -1 60 "Een paar \+
+veranderingen tov het document zijn van toepassing:" }}{PARA 0 "" 0 "
+" {TEXT -1 53 "* In het document wordt R gebruikt, dat is hier Ropt," 
+}}{PARA 0 "" 0 "" {TEXT -1 43 "* Zdiff is de eerste afgeleide (dus ook
+ S)," }}{PARA 0 "" 0 "" {TEXT -1 32 "* Zdiff2 is de tweede afgeleide,
+" }}{PARA 0 "" 0 "" {TEXT -1 40 "* Zlin is de rechte lijn die Z benade
+rd." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 94 "Als eerste wordt de overdrachts
+functie ingevoerd. Dit is die van een standaard spanningsdeler." }}
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 
+0 26 "Z:=Ropt/(A*exp(B/T)+Ropt);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%
+\"ZG*&%%RoptG\"\"\",&*&%\"AGF'-%$expG6#*&%\"BGF'%\"TG!\"\"F'F'F&F'F1" 
+}}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 74 
+"Nu wordt de eerste afgeleide berekend. Deze functie is nog niet zo la
+stig." }}{PARA 0 "" 0 "" {TEXT -1 78 "Uit deze functie is op te maken \+
+waar de overdrachtsfunctie het snelst varieert" }}{PARA 0 "" 0 "" 
+{TEXT -1 81 "bij varierende temperatuur (simpel gezegd: waar Z het sne
+lst stijgt bij stijgende" }}{PARA 0 "" 0 "" {TEXT -1 65 "temperatuur).
+ Dit is gelijk ook de functie van de gevoeligheid S." }}{PARA 0 "" 0 "
+" {TEXT -1 82 "Deze functie is nodig om de richtingscoefficient (rico)
+ uit te rekenen waarmee de " }}{PARA 0 "" 0 "" {TEXT -1 28 "rechte lij
+n wordt opgesteld." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 
+"> " 0 "" {MPLTEXT 1 0 17 "Zdiff:=diff(Z,T);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#>%&ZdiffG*.%%RoptG\"\"\",&*&%\"AGF'-%$expG6#*&%\"BGF'%
+\"TG!\"\"F'F'F&F'!\"#F*F'F/F'F0F2F+F'" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 92 "Nu wordt de tweede afgele
+ide bepaald. Deze is nodig om te bepalen waar de overdrachtsfunctie" }
+}{PARA 0 "" 0 "" {TEXT -1 99 "het snelst varieert bij varierende tempe
+ratuur. Daar is de tweede afgeleide namelijk nul, dit wordt" }}{PARA 
+0 "" 0 "" {TEXT -1 27 "het buigpunt van Z genoemd." }}{PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "Zdiff2:=sim
+plify(diff(Zdiff,T));" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%'Zdiff2G*0%
+%RoptG\"\"\"%\"AGF'%\"BGF'-%$expG6#*&F)F'%\"TG!\"\"F',**(F(F'F)F'F*F'F
+'**\"\"#F'F.F'F(F'F*F'F/*(F3F'F.F'F&F'F/*&F)F'F&F'F/F',&*&F(F'F*F'F'F&
+F'!\"$F.!\"%" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "
+" {TEXT -1 72 "Nu worden de waarden van A, B en Ropt ingevuld. Deze ko
+men uit hetzelfde" }}{PARA 0 "" 0 "" {TEXT -1 9 "document." }}{PARA 0 
+"" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "A:=
+4.4126894e-3;" }}{PARA 0 "> " 0 "" {MPLTEXT 1 0 12 "B:=3462.232;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#>%\"AG$\")%*o7W!#5" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#>%\"BG$\"(KAY$!\"$" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 13 "Ropt:=755.39;" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%%R
+optG$\"&Rb(!\"#" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 
+0 "" {TEXT -1 74 "Hieronder is een grafiek te zien van Z. Bij een lage
+ temperatuur stijgt de" }}{PARA 0 "" 0 "" {TEXT -1 72 "functie nog nau
+welijks, daarna stijgt Z ineens heel snel en bij een hoge" }}{PARA 0 "
+" 0 "" {TEXT -1 68 "temperatuur eveneens zakt dit stijgen weer helemaa
+l in. Rond T=280 K" }}{PARA 0 "" 0 "" {TEXT -1 68 "is te zien dat de f
+unctie erg snel stijgt bij stijgende temperatuur." }}{PARA 0 "" 0 "" 
+{TEXT -1 1 " " }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "plot(Z,T=0
+..500);" }}{PARA 13 "" 1 "" {GLPLOT2D 400 400 400 {PLOTDATA 2 "6%-%'CU
+RVESG6$7[o7$$\"3!*******R`!eS$!#=$\"\"!F,7$$\"3\")******z1h6oF*F+7$$\"
+33+++-;u@5!#<F+7$$\"3'******f8ABO\"F3F+7$$\"3;+++/K[V?F3F+7$$\"3#*****
+*>FWYs#F3F+7$$\"3K+++3k'p3%F3F+7$$\"3#******\\a)G\\aF3$\"3(HmsS66h+#!$
+)G7$$\"3?******>G$R<)F3$\"3m-rdEzz->!$'>7$$\"3++++4x&)*3\"!#;$\"3#fG$y
+VO:`=!$]\"7$$\"3#******>R(*Rc\"FO$\"3tM=V2,#*R7!$3\"7$$\"38+++uq8Q?FO$
+\"3o'p>^.qi(G!#')7$$\"3%******pRwX5$FO$\"3qo0RO$R;K'!#h7$$\"3q*****>x%
+3yTFO$\"3OUI?[l'zv\"!#[7$$\"3u******\\4\\Y_FO$\"3+;Tw9!yxu$!#T7$$\"3\\
++++U-/PiFO$\"3.AutL6$[L\"!#O7$$\"3]******empisFO$\"3_&))[utO')Q$!#L7$$
+\"3W+++#*>VB$)FO$\"3?KGqk())QZ\"!#I7$$\"3m*****R`l2Q*FO$\"3/6%42He=g\"
+!#G7$$\"31+++0j$o/\"!#:$\"3y+Z$R\"4v6u!#F7$$\"3)******>&>jU6Ffq$\"3?%[
+7))\\<h=\"!#D7$$\"3)******H;v/D\"Ffq$\"3d>cEOr7=;!#C7$$\"3++++)=h(e8Ff
+q$\"3sn$>vQJ*p9!#B7$$\"3!******z$[6j9Ffq$\"3%pnML'*p#[!*F[s7$$\"3%****
+***[z(yb\"Ffq$\"3r-$\\&[Yi;Q!#A7$$\"35+++b/cq;Ffq$\"3&Qr\"pQpk3<!#@7$$
+\"3))*****pJ<gw\"Ffq$\"3U]X6+k4O_F\\t7$$\"3)******4Mcq(=Ffq$\"3%\\)*)[
+d)Gzm\"!#?7$$\"3!******>pW`(>Ffq$\"3q\\Y&o)RelTFgt7$$\"31+++\"f#=$3#Ff
+q$\"3T=TS))\\xD5!#>7$$\"3++++t(pe=#Ffq$\"3#RzG#f9c7AFbu7$$\"37+++uI,$H
+#Ffq$\"3#=:$pM=.GXFbu7$$\"3/+++rSS\"R#Ffq$\"3g,JP'=I86)Fbu7$$\"3!*****
+*H0Kv\\#Ffq$\"3>'*>Aad$QS\"F*7$$\"3=++++#pxg#Ffq$\"3#zYD-s['oAF*7$$\"3
+E+++!3]dl#Ffq$\"3*oaKZVmlr#F*7$$\"3v******f4t.FFfq$\"3;\"zH#ffe(>$F*7$
+$\"3%******\\i^bv#Ffq$\"3?5R=H@TUPF*7$$\"38+++!Hst!GFfq$\"3yQ\"*>.uH*H
+%F*7$$\"3')*****z534'GFfq$\"3y')Qg9<jr[F*7$$\"3:+++ERW9HFfq$\"3y_HnRyJ
+EaF*7$$\"3u******y#=o'HFfq$\"3*\\n*eeWJSfF*7$$\"3*)*****>j#>>IFfq$\"3Q
+jbE@Ez<kF*7$$\"39+++7v')pIFfq$\"3hL[!y7w.%oF*7$$\"3%)*****>RU07$Ffq$\"
+3xJUY0CFAsF*7$$\"3D+++?S2LKFfq$\"3&>\\xux8x#zF*7$$\"3$)*****Hp)=MLFfq$
+\"3M63c9606%)F*7$$\"3=+++*=]@W$Ffq$\"3I\\1vG\">(*z)F*7$$\"3%)******\\$
+z*RNFfq$\"3CwE0?'HP1*F*7$$\"3A+++kC$pk$Ffq$\"3a)ph(\\mR!G*F*7$$\"3w***
+**z+nvu$Ffq$\"37bqdl4:L%*F*7$$\"3')*****R5fF&QFfq$\"3qyi=&e))Qb*F*7$$
+\"3-+++0OgbRFfq$\"3q?\"zu%\\_V'*F*7$$\"3#)*****pEsK1%Ffq$\"3Fd>pZK@:(*
+F*7$$\"31+++&)*pp;%Ffq$\"3G,d9JwOo(*F*7$$\"3#******z(e,tUFfq$\"3([/CP@
+62\")*F*7$$\"3/+++fO=yVFfq$\"371dLccmV)*F*7$$\"3=+++E>#[Z%Ffq$\"3'y?>@
+s%)y')*F*7$$\"3A+++(G!e&e%Ffq$\"3E%f%G&Gd,*)*F*7$$\"3%)*****\\)Qk%o%Ff
+q$\"3Ag$zfZ9i!**F*7$$\"3))*****>Mm-z%Ffq$\"3r(41(zZ??**F*7$$\"3I+++60O
+\"*[Ffq$\"3e>2kd3?J**F*7$$\"$+&F,$\"3+i\">nX]4%**F*-%'COLOURG6&%$RGBG$
+\"#5!\"\"F+F+-%+AXESLABELSG6$Q\"T6\"Q!Fc`l-%%VIEWG6$;F+Fd_l%(DEFAULTG
+" 1 2 0 1 10 0 2 9 1 4 2 1.000000 45.000000 45.000000 0 0 "Curve 1" }}
+}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 86 "
+Waar is de stijging het grootst? Dat is eenvoudig te zien als de funct
+ie van de eerste" }}{PARA 0 "" 0 "" {TEXT -1 79 "afgeleide wordt afged
+rukt. De eerste afgeleide geeft aan waar de variatie van Z" }}{PARA 0 
+"" 0 "" {TEXT -1 78 "het grootst is bij variatie van T. Dit is ook de \+
+grafiek van S. Rond T = 280 K" }}{PARA 0 "" 0 "" {TEXT -1 74 "is deze \+
+variatie het grootst. Voor T = 280 K neemt de gevoeligheid toe, na" }}
+{PARA 0 "" 0 "" {TEXT -1 73 "T = 280 K neemt de gevoeligheid af. De to
+p van deze functie geeft precies" }}{PARA 0 "" 0 "" {TEXT -1 33 "aan w
+aar het buigpunt van Z ligt." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 21 "plot(Zdiff,T=0..500);" }}
+{PARA 13 "" 1 "" {GLPLOT2D 577 367 367 {PLOTDATA 2 "6%-%'CURVESG6$7_p7
+$$\"+S`!eS$!#5$\"+Pd6lk!%:W7$$\"+!o5;\"oF*$\"+>6#Qa%!%3A7$$\"+-;u@5!\"
+*$\"+Q)QHK\"!%s97$$\"+O@Ki8F7$\"+<M*H-'!%067$$\"+/K[V?F7$\"+`/hm@!$P(7
+$$\"+sUkCFF7$\"+%oBk4\"!$`&7$$\"+3k'p3%F7$\"+ou+%Q%!$q$7$$\"3#******\\
+a)G\\a!#<$\"\"!FX7$$\"3?******>G$R<)FVFW7$$\"3++++4x&)*3\"!#;$\"3kl4-2
+$p;S&!$\\\"7$$\"3#******>R(*Rc\"Fin$\"3Abd$[#G+b<!$2\"7$$\"38+++uq8Q?F
+in$\"3o(\\Q5c\"G(R#!#&)7$$\"3%******pRwX5$Fin$\"3kbKe')>\"3F#!#g7$$\"3
+q*****>x%3yTFin$\"3/C9)Q]\"o'[$!#[7$$\"3u******\\4\\Y_Fin$\"3'[h!*G7GS
+r%!#T7$$\"3\\+++U-/PiFin$\"3k+?&=^C!)=\"!#O7$$\"3]******empisFin$\"3L]
+fyp!fUA#!#L7$$\"3W+++#*>VB$)Fin$\"3EzQLKNtlt!#J7$$\"3m*****R`l2Q*Fin$
+\"3-0?')3rO-j!#H7$$\"31+++0j$o/\"!#:$\"3#)p#oMBO;M#!#F7$$\"3)******>&>
+jU6Ffr$\"3%[K.<pl`9$!#E7$$\"3)******H;v/D\"Ffr$\"3k[*QpDnFe$!#D7$$\"3+
++++)=h(e8Ffr$\"3)oF6+'GbcF!#C7$$\"3!******z$[6j9Ffr$\"3;/$zS%HRj9!#B7$
+$\"3%*******[z(yb\"Ffr$\"3ttYF@qUWaFat7$$\"35+++b/cq;Ffr$\"3Uv#4:=&Q>@
+!#A7$$\"3))*****pJ<gw\"Ffr$\"3*Gml&pDg4eF\\u7$$\"32+++Ho`@=Ffr$\"3*e8^
+TE1u\"**F\\u7$$\"3)******4Mcq(=Ffr$\"31,:+5nEO;!#@7$$\"36+++;0?E>Ffr$
+\"3]&prEkPE[#F\\v7$$\"3!******>pW`(>Ffr$\"35SlQd`s!o$F\\v7$$\"3&******
+>kj#H?Ffr$\"34f911\"*4HbF\\v7$$\"31+++\"f#=$3#Ffr$\"3M-S#4JE)*4)F\\v7$
+$\"3*)*****>=EX8#Ffr$\"3'3rE5.W\"R6!#?7$$\"3++++t(pe=#Ffr$\"3;_7]9Kyn:
+Ffw7$$\"3/+++C9WRAFfr$\"3)>edRwqz8#Ffw7$$\"37+++uI,$H#Ffr$\"3_5fe]JhYG
+Ffw7$$\"37+++s&3AM#Ffr$\"3F?>q*p))Hi$Ffw7$$\"3/+++rSS\"R#Ffr$\"3x=YWJc
+O7XFfw7$$\"3/+++mg$zT#Ffr$\"3u&QEA\\;B.&Ffw7$$\"3(******>1oWW#Ffr$\"3#
+=T^#\\))QubFfw7$$\"3!******z0+5Z#Ffr$\"33l(R_m:A8'Ffw7$$\"3!******H0Kv
+\\#Ffr$\"35-sZmC:)p'Ffw7$$\"3*)******R84DDFfr$\"3aO<K`P:&G(Ffw7$$\"3%*
+*****fi]Eb#Ffr$\"3il<+DE_gyFfw7$$\"3#******H\"*4-e#Ffr$\"3\")o%f$))*oE
+T)Ffw7$$\"3=++++#pxg#Ffr$\"3R@6$z9v(H*)Ffw7$$\"3E+++!3]dl#Ffr$\"3*>V)p
+(\\hEr*Ffw7$$\"3v******f4t.FFfr$\"3-7o[2L=I5!#>7$$\"3-+++#HT'HFFfr$\"3
+!RYRT)Qb_5Fb\\l7$$\"3%******\\i^bv#Ffr$\"3#\\WEy'*=y1\"Fb\\l7$$\"3-+++
+#z1&oFFfr$\"3E\")[=`bts5Fb\\l7$$\"3')*****z&>Y\"y#Ffr$\"3#*=j4S(Qe2\"F
+b\\l7$$\"3q*****R7<Wz#Ffr$\"3I]5WQ:9x5Fb\\l7$$\"38+++!Hst!GFfr$\"3AS\"
+Q\\`om2\"Fb\\l7$$\"3')*****z534'GFfr$\"3-O:E&QAo0\"Fb\\l7$$\"3:+++ERW9
+HFfr$\"37Z35Zmh65Fb\\l7$$\"3u******y#=o'HFfr$\"3M)zz\\vYe[*Ffw7$$\"3*)
+*****>j#>>IFfr$\"3Y_8>PO%>t)Ffw7$$\"39+++7v')pIFfr$\"3\"\\*HNN^@SzFfw7
+$$\"3%)*****>RU07$Ffr$\"3`H8o#>\"zKrFfw7$$\"3/+++1#3o<$Ffr$\"3WFzz4/af
+iFfw7$$\"3D+++?S2LKFfr$\"3o4CQ\\$\\:W&Ffw7$$\"3?+++c8j$G$Ffr$\"33f-,8k
+7pZFfw7$$\"3$)*****Hp)=MLFfr$\"3InE![FDB;%Ffw7$$\"3++++T%p\")Q$Ffr$\"3
+=7V7*=(*ye$Ffw7$$\"3=+++*=]@W$Ffr$\"3)oA'38<P'3$Ffw7$$\"3%)******pZ1\"
+\\$Ffr$\"3Klg#=W'H!p#Ffw7$$\"3%)******\\$z*RNFfr$\"3ya$eqaoXM#Ffw7$$\"
+3A+++kC$pk$Ffr$\"3`KxXNHWQ<Ffw7$$\"3w*****z+nvu$Ffr$\"3)\\ad4t+#=8Ffw7
+$$\"3')*****R5fF&QFfr$\"3Ji!>i\"[8T**F\\v7$$\"3-+++0OgbRFfr$\"3z&\\[-t
+(o1wF\\v7$$\"3#)*****pEsK1%Ffr$\"37A([G#G)>!eF\\v7$$\"31+++&)*pp;%Ffr$
+\"3(G$\\pTJm6XF\\v7$$\"3#******z(e,tUFfr$\"3)GVme1x8_$F\\v7$$\"3/+++fO
+=yVFfr$\"3sm\"fs#=ezFF\\v7$$\"3=+++E>#[Z%Ffr$\"3MSN$RaWTD#F\\v7$$\"3A+
+++(G!e&e%Ffr$\"3__#[>e=()y\"F\\v7$$\"3%)*****\\)Qk%o%Ffr$\"3wO)Q.*[ql9
+F\\v7$$\"3))*****>Mm-z%Ffr$\"3I\"[R$\\vN%>\"F\\v7$$\"3I+++60O\"*[Ffr$
+\"3YwH;Y()Q())*F\\u7$$\"$+&FX$\"3Aa7a<'R%H\")F\\u-%'COLOURG6&%$RGBG$\"
+#5!\"\"FWFW-%+AXESLABELSG6$Q\"T6\"Q!Fhgl-%%VIEWG6$;FWFifl%(DEFAULTG" 
+1 2 0 1 10 0 2 9 1 4 2 1.000000 45.000000 45.000000 0 0 "Curve 1" }}}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 83 "Hi
+eronder een grafiek van de tweede afgeleide. Duidelijk is te zien de d
+eze grafiek" }}{PARA 0 "" 0 "" {TEXT -1 85 "rond T = 280 K de x-as kru
+ist. Daar is de tweede afgeleide dus 0 en de dat is precies" }}{PARA 
+0 "" 0 "" {TEXT -1 89 "het punt waar de eerste afgeleide (S) dus piekt
+. Merk op dat bij T << 280 K en T >> 280 K" }}{PARA 0 "" 0 "" {TEXT 
+-1 90 "deze functie ook naar 0 gaat. Dit komt omdat de eerste afgeleid
+e hier nauwelijks stijgt of" }}{PARA 0 "" 0 "" {TEXT -1 41 "daalt. Dez
+e punten moeten we niet hebben." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 22 "plot(Zdiff2,T=0..500);" }}
+{PARA 13 "" 1 "" {GLPLOT2D 508 435 435 {PLOTDATA 2 "6%-%'CURVESG6$7bp7
+$$\"+S`!eS$!#5$\"+2QLH>!%5W7$$\"+!o5;\"oF*$\"+@_F*Q$!%/A7$$\"+-;u@5!\"
+*$\"+ul([Q%!%p97$$\"+O@Ki8F7$\"+C&3F7\"!%,67$$\"+/K[V?F7$\"+7cC%z\"!$M
+(7$$\"+sUkCFF7$\"+(*GT0^!$^&7$$\"+3k'p3%F7$\"+glkl!*!$o$7$$\"+X&)G\\aF
+7$\"+p!f&=F!$w#7$$\"+?G$R<)F7$\"+NBS&3&!$&=7$$\"3++++4x&)*3\"!#;$\"\"!
+F^o7$$\"3#******>R(*Rc\"F\\o$\"3!*y8)Qk;;Y#!$1\"7$$\"38+++uq8Q?F\\o$\"
+3O-LgK``u>!#%)7$$\"3%******pRwX5$F\\o$\"3tX[3))Gv5!)!#g7$$\"3q*****>x%
+3yTF\\o$\"3Wk\"Rg@V%[n!#[7$$\"3u******\\4\\Y_F\\o$\"3UtZJ!=%p\\d!#T7$$
+\"3\\+++U-/PiF\\o$\"3nr!zD6o#>5!#O7$$\"3]******empisF\\o$\"330\"[oUC()
+R\"!#L7$$\"3W+++#*>VB$)F\\o$\"3lNQ(4mCS]$!#J7$$\"3m*****R`l2Q*F\\o$\"3
+%*G\\t)oT_M#!#H7$$\"31+++0j$o/\"!#:$\"3[nQ/,%*o]p!#G7$$\"3)******>&>jU
+6Fhr$\"3q:_QqVQ!z(!#F7$$\"3)******H;v/D\"Fhr$\"3%Qdnc5Q(ft!#E7$$\"3+++
++)=h(e8Fhr$\"3S%f<0@$fjZ!#D7$$\"3!******z$[6j9Fhr$\"3-;QA[Arm@!#C7$$\"
+3%*******[z(yb\"Fhr$\"3g&*3SO:CnqFct7$$\"35+++b/cq;Fhr$\"3O%>H!)GxYP#!
+#B7$$\"3*******f)))G=<Fhr$\"3#RlS$[,JfPF^u7$$\"3))*****pJ<gw\"Fhr$\"3!
+[d*H\"*[h%y&F^u7$$\"32+++Ho`@=Fhr$\"3/Qta>w#*R#*F^u7$$\"3)******4Mcq(=
+Fhr$\"3fSv&3&)z\"G9!#A7$$\"3!******>pW`(>Fhr$\"3!>n4mVJg'GFcv7$$\"3&**
+****>kj#H?Fhr$\"3ha*)G[jBUSFcv7$$\"31+++\"f#=$3#Fhr$\"3=`wZR&Q>b&Fcv7$
+$\"3*)*****>=EX8#Fhr$\"3@Yc2w$)RDtFcv7$$\"3++++t(pe=#Fhr$\"3Le#pB6<KU*
+Fcv7$$\"3/+++C9WRAFhr$\"3!=%Q(Hv&f!>\"!#@7$$\"37+++uI,$H#Fhr$\"3s+Lp[P
+Sc9Fbx7$$\"37+++s&3AM#Fhr$\"3%z(>I!y?vp\"Fbx7$$\"3/+++rSS\"R#Fhr$\"3=4
+]%R'oF6>Fbx7$$\"3/+++mg$zT#Fhr$\"3'**z)Q:[)\\+#Fbx7$$\"3(******>1oWW#F
+hr$\"3u%HKt)4>x?Fbx7$$\"3%*******fStdCFhr$\"3w&*fa+7n.@Fbx7$$\"3!*****
+*z0+5Z#Fhr$\"3G*RV**HNH7#Fbx7$$\"3))*****f0mU[#Fhr$\"3m9f=^#>W8#Fbx7$$
+\"3!******H0Kv\\#Fhr$\"3510^X3gP@Fbx7$$\"3%******fi]Eb#Fhr$\"3-xFn!4dF
+0#Fbx7$$\"3=++++#pxg#Fhr$\"3?v\"Q<%3l)z\"Fbx7$$\"3A+++S'f<j#Fhr$\"32N8
+L&*>NO;Fbx7$$\"3E+++!3]dl#Fhr$\"3-A#>m\"p&fW\"Fbx7$$\"3s******>0uzEFhr
+$\"3aNO=)>67B\"Fbx7$$\"3v******f4t.FFhr$\"3-IgK^<-o**Fcv7$$\"3-+++#HT'
+HFFhr$\"3'fz.&)4C!ysFcv7$$\"3%******\\i^bv#Fhr$\"3?E<]%z$*f\\%Fcv7$$\"
+3')*****z&>Y\"y#Fhr$\"3=3_EOG/)p\"Fcv7$$\"38+++!Hst!GFhr$!3d!*Gczz*>/
+\"Fcv7$$\"3G+++*>ST$GFhr$!3$)y#R*[n:SPFcv7$$\"3')*****z534'GFhr$!3Pc!G
+?#[HSiFcv7$$\"3++++<gn()GFhr$!3i\"fUb$Qg\"\\)Fcv7$$\"3:+++ERW9HFhr$!3i
+(eGQ3*yX5Fbx7$$\"3u******y#=o'HFhr$!3(3dNf&e;T8Fbx7$$\"3*)*****>j#>>IF
+hr$!3//+G!oi)=:Fbx7$$\"3-+++s+`WIFhr$!3Uov\\:z3m:Fbx7$$\"39+++7v')pIFh
+r$!37/)3Z625f\"Fbx7$$\"3#******>BOD3$Fhr$!33ENvCr*ef\"Fbx7$$\"3E+++_\\
+?&4$Fhr$!3WK.)Rn%='f\"Fbx7$$\"31+++sO(y5$Fhr$!3%G*3kkw?#f\"Fbx7$$\"3%)
+*****>RU07$Fhr$!3gcKXENI%e\"Fbx7$$\"3/+++1#3o<$Fhr$!3q&G1*3qB5:Fbx7$$
+\"3D+++?S2LKFhr$!3')>W_h3*>R\"Fbx7$$\"3$)*****Hp)=MLFhr$!3MqRe8u.M6Fbx
+7$$\"3=+++*=]@W$Fhr$!3u0)3Bk**pk)Fcv7$$\"3%)******\\$z*RNFhr$!3)y*fRc$
+3$*e'Fcv7$$\"3A+++kC$pk$Fhr$!3&*)GbJ\\6v#[Fcv7$$\"3w*****z+nvu$Fhr$!3+
+s;6i*\\Ze$Fcv7$$\"3')*****R5fF&QFhr$!3&3c4^!=*yi#Fcv7$$\"3-+++0OgbRFhr
+$!3!pf'[\">lx%>Fcv7$$\"3#)*****pEsK1%Fhr$!3kN8+7X(HV\"Fcv7$$\"31+++&)*
+pp;%Fhr$!3socE))RZu5Fcv7$$\"3#******z(e,tUFhr$!3We#GvS(os!)F^u7$$\"3/+
+++fO=yVFhr$!3t-t2'fuK8'F^u7$$\"3=+++E>#[Z%Fhr$!3vs+Law*>![F^u7$$\"3A++
++(G!e&e%Fhr$!3aY/`oHhgOF^u7$$\"3%)*****\\)Qk%o%Fhr$!3a$[GTj/Z*GF^u7$$
+\"3))*****>Mm-z%Fhr$!3E%o=f,p>F#F^u7$$\"3I+++60O\"*[Fhr$!3ftpk/0R:=F^u
+7$$\"$+&F^o$!3T,Ca`<sP9F^u-%'COLOURG6&%$RGBG$\"#5!\"\"F]oF]o-%+AXESLAB
+ELSG6$Q\"T6\"Q!Fhhl-%%VIEWG6$;F]oFigl%(DEFAULTG" 1 2 0 1 10 0 2 9 1 4 
+2 1.000000 45.000000 45.000000 0 0 "Curve 1" }}}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 96 "Maar waar kruist de twe
+ede afgeleide nu de x-as? Dat kan met Maple eenvoudig worden uitgereke
+nd." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 30 "T0:=fsolve(Zdiff2=0,T=0..500);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#>%#T0G$\"+N<T(z#!\"(" }}}{EXCHG {PARA 0 "" 0 "" {TEXT 
+-1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 92 "Goed, bij T = T0 = 279,74 K is \+
+de tweede afgeleide dus 0 en piekt S en varieert Z het meest." }}
+{PARA 0 "" 0 "" {TEXT -1 91 "En wat is dan de waarde van S (de afgelei
+de van Z, weten we het nog?) bij die temperatuur?." }}{PARA 0 "" 0 "" 
+{TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "S:=eval(Zdi
+ff,T=T0);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%\"SG$\"+w))=x5!#6" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 80 "Ok
+ee, bij T = T0 = 279,74 stijgt Z met 0,01077 per K (merk op dat Z dime
+nsieloos" }}{PARA 0 "" 0 "" {TEXT -1 48 "is, het is een verhouding van
+ twee spanningen!)." }}{PARA 0 "" 0 "" {TEXT -1 92 "En wat is dan de w
+aarde van Z (de originele functie, weten we het nog?) bij die temperat
+uur?" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 17 "Z0:=eval(Z,T=T0);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#
+>%#Z0G$\"+62-#>%!#5" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 
+0 "" 0 "" {TEXT -1 81 "Okee, die is 0,42. We hebben nu alle ingredient
+en om een mooie rechte lijn uit te" }}{PARA 0 "" 0 "" {TEXT -1 71 "rek
+enen die door Z = 0,42 bij T = 279,74 loopt. De lijn is van de vorm:" 
+}}{PARA 0 "" 0 "" {TEXT -1 26 "            Zlin = a.x + b" }}{PARA 0 "
+" 0 "" {TEXT -1 80 "Hierin is a = 0,01077 en b = 0,42. Merk op dat x n
+iet gelijk is aan T. Bij x = 0" }}{PARA 0 "" 0 "" {TEXT -1 77 "is de u
+itkomst van Zlin = 0,42, precies de waarde van  Z bij T = T0 = 279,94.
+" }}{PARA 0 "" 0 "" {TEXT -1 51 "Er moet een verschuiving plaats vinde
+n: x = T - T0." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> \+
+" 0 "" {MPLTEXT 1 0 27 "Zlin:=S*(T-279.7411736)+Z0;" }}{PARA 11 "" 1 "
+" {XPPMATH 20 "6#>%%ZlinG,&*&$\"+w))=x5!#6\"\"\"%\"TGF*F*$\"+L(QTf#!\"
+*!\"\"" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" 
+{TEXT -1 69 "Maple bouwt de functie iets om, omdat T0 als constante is
+ ingevoerd. " }}{PARA 0 "" 0 "" {TEXT -1 76 "Laten we nu de originele \+
+functie Z en de nieuwe functie Zlin eens afdrukken." }}{PARA 0 "" 0 "
+" {TEXT -1 73 "Dit doen we voor een beperkt gebied van T. Zoals je zie
+n zijn de functies" }}{PARA 0 "" 0 "" {TEXT -1 73 "bijna gelijk! Zlin \+
+is dus een prima benadering van Z! Bij T > 295 K lopen" }}{PARA 0 "" 
+0 "" {TEXT -1 20 "ze niet meer in pas." }}{PARA 0 "" 0 "" {TEXT -1 0 "
+" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 26 "plot([Z,Zlin],T=270..30
+0);" }}{PARA 13 "" 1 "" {GLPLOT2D 507 497 497 {PLOTDATA 2 "6&-%'CURVES
+G6$7S7$$\"$q#\"\"!$\"3-UMq#[?#fJ!#=7$$\"3F++DY\"Rlq#!#:$\"3\\-X*\\NalA
+$F-7$$\"32+vVA)GAr#F1$\"3%4^#=V!zaG$F-7$$\"3s**\\Peui=FF1$\"3E,xD4q4_L
+F-7$$\"3;+]i3&o]s#F1$\"3_8mUa`]>MF-7$$\"3>+voX*y9t#F1$\"3/$*[ucI\"p[$F
+-7$$\"3z*\\P9CAut#F1$\"3GfLGO#p'\\NF-7$$\"36+v$*zhdVFF1$\"3^31Uv$*)[h$
+F-7$$\"3!**\\P>fS*\\FF1$\"3%zF?ETqDo$F-7$$\"3/+v=$f%GcFF1$\"313\"RJ5S-
+v$F-7$$\"3#****\\#y,\"Gw#F1$\"3E\"=,1)=.?QF-7$$\"3y**\\7<zboFF1$\"3+A6
++%QO;)QF-7$$\"3-++v4&G]x#F1$\"3MWi0P&46&RF-7$$\"3=++Drc_\"y#F1$\"3-P5f
+6'o4-%F-7$$\"31++D!*oy(y#F1$\"3#\\'*eEne$)3%F-7$$\"3%)*\\PpnsMz#F1$\"3
+Iim#=p!f\\TF-7$$\"3F++DFOB+GF1$\"3^&o\"oEuTAUF-7$$\"3.+++R5'f!GF1$\"3w
+<.s=>5%G%F-7$$\"3#**\\P/QBE\"GF1$\"3U^*z$yt\"eN%F-7$$\"3!)****\\\"o?&=
+GF1$\"3OvgiV+C>WF-7$$\"3-+vVb4*\\#GF1$\"3;NlV^lt)[%F-7$$\"3-+DJ'=_6$GF
+1$\"3!)[F5*o.[b%F-7$$\"3*)**\\P%y!ePGF1$\"3)fpJu(zfBYF-7$$\"3G+v=WU[VG
+F1$\"35X:;n\\i'o%F-7$$\"3w**\\7B>&)\\GF1$\"3%oL&HSjUaZF-7$$\"3%**\\P>:
+mk&GF1$\"3<c&y5(yiC[F-7$$\"3#**\\iv&QAiGF1$\"3YEL<:9`&)[F-7$$\"3?+]PPB
+WoGF1$\"3wm2$\\sr5&\\F-7$$\"3-++]Nm'[(GF1$\"3o;kaN3]=]F-7$$\"3')**\\(y
+b^6)GF1$\"3Y#)o]8)pT3&F-7$$\"3++vVVDB()GF1$\"3!pYhnf3u9&F-7$$\"3')**\\
+7TW)R*GF1$\"3ox6Q7uD<_F-7$$\"34++]@80+HF1$\"3?;a`f6nz_F-7$$\"3r***\\7,
+Hl!HF1$\"3!ym%HZt#fM&F-7$$\"38+v$4w)R7HF1$\"3-sKLNog0aF-7$$\"3'****\\x
+%f\")=HF1$\"3!RwnB0X/Z&F-7$$\"39+vV?S&[#HF1$\"3S\"4<c))[5`&F-7$$\"3,+v
+=Yb;JHF1$\"3eL!*[4I'Rf&F-7$$\"37++D;iLPHF1$\"3+o#3E8H]l&F-7$$\"3')*\\P
+fL'zVHF1$\"3lRnbnTZ=dF-7$$\"3')******)>=+&HF1$\"33T7$>w&4zdF-7$$\"3u**
+\\i_4QcHF1$\"3hM4$Hz&eSeF-7$$\"3-+vV>5piHF1$\"3o&\\k(4-0,fF-7$$\"3u***
+*\\:$*[oHF1$\"3C=]$[*o9cfF-7$$\"3#)**\\7<[8vHF1$\"3)f'3MNet=gF-7$$\"3?
++++L'y5)HF1$\"3-([cJL,U2'F-7$$\"3-+vV!)fT()HF1$\"3wt;>FQzKhF-7$$\"3s*
+\\i0j\"[$*HF1$\"3#p(>(egQ$)='F-7$$\"$+$F*$\"3oEB'o$fVZiF--%'COLOURG6&%
+$RGBG$\"#5!\"\"$F*F*F`[l-F$6$7S7$F($\"30.++ABrUJF-7$F/$\"39y.*zF^J@$F-
+7$F5$\"3E[D'p$)RWF$F-7$F:$\"3!3.(\\J_OVLF-7$F?$\"3a.wG3vu7MF-7$FD$\"3)
+*QyAB+!=[$F-7$FI$\"3)Gh9Ra?ea$F-7$FN$\"3j*\\s[35@h$F-7$FS$\"3Y1$fH#om!
+o$F-7$FX$\"3k0wr)p.!\\PF-7$Fgn$\"3#ex/^d'H>QF-7$F\\o$\"3I*z())y0@\")QF
+-7$Fao$\"37xb&G364&RF-7$Ffo$\"3\\M$*y$y(*3-%F-7$F[p$\"3gI$f$QHM)3%F-7$
+F`p$\"3Ip,2+'*e\\TF-7$Fep$\"3u5$[Z!yTAUF-7$Fjp$\"3AE?+ZG6%G%F-7$F_q$\"
+3e6z%y%)yeN%F-7$Fdq$\"3E*Qx)=RS>WF-7$Fiq$\"3=p)y**)45*[%F-7$F^r$\"3!*
+\\!*e$3pab%F-7$Fcr$\"3Y\\5!oA<Zi%F-7$Fhr$\"3SJ/?R'3$)o%F-7$F]s$\"3KrXP
+o0!pv%F-7$Fbs$\"397gP0$[\"G[F-7$Fgs$\"31R8))p'p,*[F-7$F\\t$\"3'z*ynUW:
+d\\F-7$Fat$\"3op9WniNE]F-7$Fft$\"3q--8_n0%4&F-7$F[u$\"3'3ig@Xg&f^F-7$F
+`u$\"3+s#pH9\"HK_F-7$Feu$\"3c,!*[.Hk(H&F-7$Fju$\"3A)y(*o&)>uO&F-7$F_v$
+\"36!f!eZ\"[1V&F-7$Fdv$\"3iup2qLx*\\&F-7$Fiv$\"3]B:R<[\"[c&F-7$F^w$\"3
+#QRw1(=!Gj&F-7$Fcw$\"3q4V;U;F*p&F-7$Fhw$\"3EUV\"GLf)odF-7$F]x$\"32ZNg
+\\0)e$eF-7$Fbx$\"3hI$fQU>W!fF-7$Fgx$\"3a\\<jh2RsfF-7$F\\y$\"3!\\a9=O\\
+[.'F-7$Fay$\"3YVM2mRV1hF-7$Ffy$\"3qr))[*3g/<'F-7$F[z$\"3O*3>6HD(QiF-7$
+F`z$\"3#ymA&*zjSI'F-7$Fez$\"3A0++]*yUP'F--Fjz6&F\\[lF`[lF][lF`[l-%+AXE
+SLABELSG6$Q\"T6\"Q!F]el-%%VIEWG6$;F(Fez%(DEFAULTG" 1 2 0 1 10 0 2 9 1 
+4 2 1.000000 45.000000 45.000000 0 0 "Curve 1" "Curve 2" }}}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 90 "Nu maar e
+ens de relatieve procentuele afwijking van Zlin tov Z afdrukken. Tusse
+n T = 270 K" }}{PARA 0 "" 0 "" {TEXT -1 86 "en T = 290 K is de afwijki
+ng nog geen 0,5 %. Ook is goed te zien dat de afwijking snel" }}{PARA 
+0 "" 0 "" {TEXT -1 78 "oploopt voor T < 270 K en T > 290 K. De functie
+ Zlin is dus beperkt bruikbaar." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 34 "plot( (Zlin-Z)/Z*100, T=270.
+.300);" }}{PARA 13 "" 1 "" {GLPLOT2D 400 400 400 {PLOTDATA 2 "6%-%'CUR
+VESG6$7S7$$\"$q#\"\"!$!3g9q!>]!RD_!#=7$$\"3F++DY\"Rlq#!#:$!3]BiRo2*R:%
+F-7$$\"32+vVA)GAr#F1$!3AM&>e(*)**fLF-7$$\"3s**\\Peui=FF1$!3OsW\"fCq[g#
+F-7$$\"3;+]i3&o]s#F1$!3-URpOUEw>F-7$$\"3>+voX*y9t#F1$!3IuD*fe\\jY\"F-7
+$$\"3z*\\P9CAut#F1$!3?um<<(RU3\"F-7$$\"36+v$*zhdVFF1$!3'p*4]iDX)o(!#>7
+$$\"3!**\\P>fS*\\FF1$!3%3U3\"4u=p^FR7$$\"3/+v=$f%GcFF1$!3MjQ@nt'oH$FR7
+$$\"3#****\\#y,\"Gw#F1$!3`>)*4Mu'[#>FR7$$\"3y**\\7<zboFF1$!3G-MM7K(p4
+\"FR7$$\"3-++v4&G]x#F1$!35k^W7huA]!#?7$$\"3=++Drc_\"y#F1$!3KEdp$>h9w\"
+Ffo7$$\"31++D!*oy(y#F1$!3[j2-j9c[Q!#@7$$\"3%)*\\PpnsMz#F1$!3L:WpG!)*4j
+#!#A7$$\"3F++DFOB+GF1$\"3;&[([(e&z`*)!#B7$$\"3.+++R5'f!GF1$\"3yX5n#4#*
+3b#Fap7$$\"3#**\\P/QBE\"GF1$\"3&f,+W(R?69Ffo7$$\"3!)****\\\"o?&=GF1$\"
+3mnMtZCA3PFfo7$$\"3-+vVb4*\\#GF1$\"3?Is7Gf&*=\")Ffo7$$\"3-+DJ'=_6$GF1$
+\"3QIRh\\J'3Y\"FR7$$\"3*)**\\P%y!ePGF1$\"3GK#etXK2U#FR7$$\"3G+v=WU[VGF
+1$\"3+3m**3V]#f$FR7$$\"3w**\\7B>&)\\GF1$\"3W#[egw^S?&FR7$$\"3%**\\P>:m
+k&GF1$\"3ujO$Hl*z'H(FR7$$\"3#**\\iv&QAiGF1$\"3#y@l-9fQ\\*FR7$$\"3?+]PP
+BWoGF1$\"3!QnE7(ecG7F-7$$\"3-++]Nm'[(GF1$\"3]\"H7x_%Hl:F-7$$\"3')**\\(
+yb^6)GF1$\"3cE?KL:lW>F-7$$\"3++vVVDB()GF1$\"3-#[:xZr2O#F-7$$\"3')**\\7
+TW)R*GF1$\"3a!f)Hx*Q:)GF-7$$\"34++]@80+HF1$\"3zVej%Q^RS$F-7$$\"3r***\\
+7,Hl!HF1$\"3DYhZ\")>N?SF-7$$\"38+v$4w)R7HF1$\"3ucu)*Q,ZKYF-7$$\"3'****
+\\x%f\")=HF1$\"3%GKGZlI7O&F-7$$\"39+vV?S&[#HF1$\"3t0d`/sz/hF-7$$\"3,+v
+=Yb;JHF1$\"3SJ9-7d*H%pF-7$$\"37++D;iLPHF1$\"335br7)oN#yF-7$$\"3')*\\Pf
+L'zVHF1$\"3GI>Dzc%4\"))F-7$$\"3')******)>=+&HF1$\"3(*QWB<\\*e#)*F-7$$
+\"3u**\\i_4QcHF1$\"3[1uw'*>$H4\"!#<7$$\"3-+vV>5piHF1$\"3_\\Tc,n%*37F[y
+7$$\"3u****\\:$*[oHF1$\"3=WT*fWl8K\"F[y7$$\"3#)**\\7<[8vHF1$\"3;7jrfb3
+d9F[y7$$\"3?+++L'y5)HF1$\"3y#RRgh9Ze\"F[y7$$\"3-+vV!)fT()HF1$\"3J*eT;P
+&HF<F[y7$$\"3s*\\i0j\"[$*HF1$\"35zCd2F0q=F[y7$$\"$+$F*$\"34V(*p\\6KI?F
+[y-%'COLOURG6&%$RGBG$\"#5!\"\"$F*F*Ff[l-%+AXESLABELSG6$Q\"T6\"Q!F[\\l-
+%%VIEWG6$;F(F[[l%(DEFAULTG" 1 2 0 1 10 0 2 9 1 4 2 1.000000 45.000000 
+45.000000 0 0 "Curve 1" }}}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}
+{PARA 0 "" 0 "" {TEXT -1 91 "We hebben een nieuwe functie Zlin gemaakt
+ die de functie Z benaderd rond T = T0 = 279,74 K." }}{PARA 0 "" 0 "" 
+{TEXT -1 91 "In de 18e eeuw is er een meneer geweest die dit probleem \+
+groter heeft aangepakt, ene meneer" }}{PARA 0 "" 0 "" {TEXT -1 91 "Tay
+lor. Die heeft een werkwijze bedacht waarbij een functie zoals Z steed
+s nauwkeuriger kan" }}{PARA 0 "" 0 "" {TEXT -1 89 "worden benaderd doo
+r een rechte lijn, een kwadratische functie, een kubische functie etc.
+" }}{PARA 0 "" 0 "" {TEXT -1 98 "Dit wordt Taylor-reeks-ontwikkeling g
+enoemd is erg belangrijk in veel gebieden van de elektronica," }}
+{PARA 0 "" 0 "" {TEXT -1 86 "natuurkunde, werktuigbouwkunde. Eerst maa
+r de Taylor-reeks-benadering van Z met alleen" }}{PARA 0 "" 0 "" 
+{TEXT -1 15 "de rechte lijn." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "taylor(Z, T=T0, 2);" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#+),&%\"TG\"\"\"$\"+N<T(z#!\"(!\"\"$\"+
+62-#>%!#5\"\"!$\"+w))=x5!#6F&-%\"OG6#F&\"\"#" }}}{EXCHG {PARA 0 "" 0 "
+" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 40 "TADA!!!!!! Dit is onze \+
+functie Zlin!!!!!" }}{PARA 0 "" 0 "" {TEXT -1 50 "De term O((T-......)
+2) wordt de rest-term genoemd." }}{PARA 0 "" 0 "" {TEXT -1 80 "Nu maar
+ eens de Taylor-reeks-benadering met rechte lijn en kwadratische funct
+ie." }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 19 "taylor(Z, T=T0, 3);" }}{PARA 11 "" 1 "" {XPPMATH 20 "
+6#++,&%\"TG\"\"\"$\"+N<T(z#!\"(!\"\"$\"+62-#>%!#5\"\"!$\"+w))=x5!#6F&$
+\"+B9/%Q)!#B\"\"#-%\"OG6#F&\"\"$" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 
+0 "" }}{PARA 0 "" 0 "" {TEXT -1 122 "Onze rechte lijn zit er nog steed
+s in. Verder zie je dat de kwadratische functie nauwelijks van invloed
+ is: de coefficient" }}{PARA 0 "" 0 "" {TEXT -1 42 "0,5449.10^-12 is z
+o verschrikkelijk klein!" }}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 19 "taylor(Z, T=T0, 4);" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#+-,&%\"TG\"\"\"$\"+N<T(z#!\"(!\"\"$\"+62-#>%!#5\"
+\"!$\"+w))=x5!#6F&$\"+B9/%Q)!#B\"\"#$!+IO5d<!#:\"\"$-%\"OG6#F&\"\"%" }
+}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}{PARA 0 "" 0 "" {TEXT -1 39 "
+De derde macht heeft meer te vertellen!" }}{PARA 0 "" 0 "" {TEXT -1 0 
+"" }}{PARA 0 "" 0 "" {TEXT -1 89 "Willen we nu de temperatuur uitreken
+en van een waarde van Z, moeten we T expliciet maken." }}{PARA 0 "" 0 
+"" {TEXT -1 52 "Zk is hierbij een hulpje omdat Z en Zlin al bestaan." 
+}}{PARA 0 "" 0 "" {TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 20 "isolate(Zk=Zlin, T);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#/%\"TG
+,&*&$\"+7IU$G*!\")\"\"\"%#ZkGF*F*$\"+@([#3C!\"(F*" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 0 "" }}
+{PARA 0 "" 0 "" {TEXT -1 84 "Met deze functie kan dus de temperatuur w
+orden bepaald bij een gegeven waarde van Z." }}{PARA 0 "" 0 "" {TEXT 
+-1 0 "" }}}}{MARK "39" 0 }{VIEWOPTS 1 1 0 1 1 1803 1 1 1 1 }
+{PAGENUMBERS 0 1 2 33 1 1 }

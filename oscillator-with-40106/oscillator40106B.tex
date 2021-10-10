@@ -1,0 +1,176 @@
+% !TeX root = oscillator40106B.tex
+% !TeX encoding = UTF-8
+% !TeX TS-program = pdflatex
+
+
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1.5in,footskip=0.4in,showframe]{geometry}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage[betterproportions]{circuitikz}
+\usepackage[charter]{mathdesign}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{siunitx}
+
+
+\def\vp{2.2}
+\def\vn{1.3}
+\def\vdd{3.30}
+
+\author{Jesse op den Brouw\\\normalsize The Hague University of Applied Sciences}
+\title{Oscillator using a CMOS Schmitt-trigger Inverter}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\vspace*{1cm}
+\begin{abstract}
+\noindent
+For non-critical applications, a CMOS Schmitt-trigger inverter may be used to generate a clock signal. This document explores the use and calculations of such a clock generator using a HEF40106B integrated circuit.
+\end{abstract}
+
+\section{Introduction}
+A CMOS Schmitt-trigger inverter can be use as a non-critical clock signal generator with a frequency range from \qty{10}{\hertz} to \qty{1}{\mega\hertz}. A Schmitt trigger inverter has the property that the trigger voltage at the input is different for high-to-low and low-to-high. A simple circuit is shown in Figure~\ref{fig:1}.
+
+\begin{figure}[!ht]
+\centering
+\begin{circuitikz}[font=\small]
+\draw (0,0) to[C=$C$,-*] node[left] {$V_x$} (0,1.5) to[short] (0,2.5)
+            to[R=$R$] (3,2.5);
+\draw (1.5,1.5) node[invschmitt] (S) {};
+\draw (0,1.5) to[short] (S.in);
+\draw (S.out) to[short] (4,1.5) node [right] {$V_{out}$};
+\draw (3,1.5) to[short,*-] (3,2.5);
+\draw (0,0) node[sground] {};
+\draw (0,-1) to[open] (1,-1);
+\end{circuitikz}
+\pgfmathparse{-ln(1-(\vp/\vdd))}\xdef\tone{\pgfmathresult}
+\pgfmathparse{\tone-ln(\vn/\vp)}\xdef\ttwo{\pgfmathresult}
+\pgfmathparse{\ttwo-ln(1-(\vp-\vn)/(\vdd-\vn)}\xdef\tthree{\pgfmathresult}
+\pgfmathparse{\ttwo-\tone+\tthree}\xdef\tfour{\pgfmathresult}
+\begin{tikzpicture}[font=\small]
+\begin{axis}[
+	height=5cm,
+	width=7cm,
+	thick,
+	axis lines=left,
+	ymax=\vdd+0.3,xmax=\tfour+0.6,
+	ytick={0.0,\vn,\vp,\vdd},
+	yticklabels={0,$V_N$,$V_P$,$V_{DD}$},
+	xtick={0.0,\tone,\ttwo,\tthree,\tfour},
+	xticklabels={0,$t_1$,$t_2$,$t_3$,$t_4$},
+	xlabel=$t$,
+	ylabel=$V_x$
+]
+\addplot [domain=0:\tfour+0.6,red] {\vdd};
+\addplot [domain=0:\tfour+0.6,dotted] {\vp};
+\addplot [domain=0:\tfour+0.6,dotted] {\vn};
+\addplot [domain=0:\tone,blue] {\vdd*(1-exp(-x))};
+\addplot [domain=\tone:\ttwo,blue] {(\vp)*(exp(-(x-\tone)))};
+\addplot [domain=\ttwo:\tthree,blue] {\vn+(\vdd-\vn)*(1-exp(-(x-\ttwo)))};
+\addplot [domain=\tthree:\tfour,blue] {(\vp)*(exp(-(x-\tthree)))};
+
+\addplot [domain=\tone:\tfour+1,dotted,blue,thin] {\vdd*(1-exp(-x))};
+\addplot [domain=\ttwo:\tfour+1,dotted,blue,thin] {(\vp)*(exp(-(x-\tone)))};
+\addplot [domain=\tthree:\tfour+1,dotted,blue,thin] {\vn+(\vdd-\vn)*(1-exp(-(x-\ttwo)))};
+\addplot [domain=\tfour:\tfour+1,dotted,blue,thin] {(\vp)*(exp(-(x-\tthree)))};
+
+\addplot [thin,dashed] coordinates {(\tone,0) (\tone,\vp)};
+\addplot [thin,dashed] coordinates {(\ttwo,0) (\ttwo,\vn)};
+\addplot [thin,dashed] coordinates {(\tthree,0) (\tthree,\vp)};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Oscillator schematic and the progress of the voltage across the capacitance.}
+\label{fig:1}
+\end{figure}
+
+
+\section{Principle of operation}
+When the power is first asserted, the initial voltage across the capacitance is \qty{0}{\volt} and so is the voltage at the input of the inverter $V_x$. The output voltage $V_{out}$ of the inverter almost the same as the voltage of the power supply that we will designate $V_{DD}$. We will neglect the input current of the inverter, which is true for CMOS integrated circuits. 
+The voltage across the capacitance will slowly rise as is shown in Figure~\ref{fig:1} from time $t=0$ to $t=t_1$. When the input voltage $V_x$ is equal to the positive threshold voltage $V_P$, the output of the inverter will go low, making the output act as a ground reference. The input voltage $V_x$ will slowly decay as shown in Figure~\ref{fig:1} from $t=t_1$ to $t=t_2$. When the input voltage is as low as the negative threshold voltage $V_N$ at time $t=t_2$ the output will rise from low to high, so the output is acting as the power supply. From now on, the load and unload curve of the capacitance will repeat. Futhermore, we will neglect the propagation delay of the output. The rate at which the output oscillates depends on the values of $R$, $C$, $V_P$, $V_N$ and $V_{DD}$.
+
+\section{Determining the oscillation time period}
+We will neglect the startup phase which is from time $t=0$ to $t=t_1$.
+From the progression of the voltage $V_x$ over the capacitance, it can be seen that the oscillation time period is:
+
+\begin{equation}
+t_{osc} = t_3-t_1 = (t_3-t_2) + (t_2-t_1)
+\end{equation}
+
+First, we will investigate the behaviour of $V_x$ from $t=t_1$ to $t-t_2$. We can state that:
+
+\begin{equation}
+V_x[t_1,t_2] = V_P\cdot\mathrm{e}^{-\frac{t-t_1}{RC}}
+\end{equation}
+
+where $t_1 \leq t \leq  t_2$. We can write that $V_x(t_2) = V_N$. So we can deduce that:
+
+\begin{equation}
+\begin{split}
+V_N &= V_P\cdot \mathrm{e}^{-\frac{t_2-t_1}{RC}}\\
+\dfrac{V_N}{V_P} &= \mathrm{e}^{-\frac{t_2-t_1}{RC}}\\
+\ln \dfrac{V_P}{V_N} &= -\dfrac{t_2-t_1}{RC}\\
+t_2-t_1 &= RC\ln\dfrac{V_P}{V_N}
+\end{split}
+\end{equation}
+
+
+
+
+For time $t_2$ to $t_3$, the behavour of $V_x$ we can deduce that:
+
+\begin{equation}
+\begin{split}
+V_X(t_3)& = V_N \\
+V_P &= V_N + (V_{DD}-V_N)\cdot(1-\mathrm{e}^{-\frac{t_3-t_2}{RC}})\\
+V_P-V_N &= V_{DD}-V_N - (V_{DD}-V_N)\mathrm{e}^{-\frac{t_3-t_2}{RC}}\\
+\dfrac{V_P-V_{DD}}{V_{DD}-V_N} &= -\mathrm{e}^{-\frac{t_3-t_2}{RC}}
+\end{split}
+\end{equation}
+
+Changing signs leads us to:
+
+\begin{eqnarray}
+\begin{split}
+\dfrac{V_{DD}-V_P}{V_{DD}-V_N} &= \mathrm{e}^{-\frac{t_3-t_2}{RC}} \\
+\ln \dfrac{V_{DD}-V_P}{V_{DD}-V_N} &= -\frac{t_3-t_2}{RC} \\
+t_3-t_2 &= RC\ln\dfrac{V_{DD}-V_N}{V_{DD}-V_P}
+\end{split}
+\end{eqnarray}
+
+So the total period time is:
+
+\begin{equation}
+\begin{split}
+t_{period} &= (t_2-t_1)+(t_3-t_2)\\
+&= RC\ln\dfrac{V_{DD}-V_N}{V_{DD}-V_P} + RC\ln\dfrac{V_P}{V_N} \\
+&= RC\left(ln\dfrac{V_{DD}-V_N}{V_{DD}-V_P}+\ln\dfrac{V_P}{V_N}\right)\\
+&= RC\ln\left(\dfrac{V_P}{V_N}\cdot\dfrac{V_{DD}-V_N}{V_{DD}-V_P}\right)\\
+&= RC\cdot Z
+\end{split}
+\end{equation}
+
+were $Z$ represents the logarithm term.
+
+\section{Typical values}
+For a HEF40106B, the values are: $V_{DD} = \qty{5.0}{\volt}$, $V_P=\qty{3.0}{\volt}$, $V_N = \qty{2.2}{\volt}$ and $R = \qty{39}{\kilo\ohm}$, $C = \qty{2.2}{\nano\farad}$, $Z = \num{0.647}$:
+
+\begin{equation}
+f_{osc} = \qty{18}{\kilo\hertz}
+\end{equation}
+
+For a SN74AHC14, the values are $V_{DD} = \qty{3.3}{\volt}$, $V_P=\qty{1.7}{\volt}$, $V_N = \qty{1.2}{\volt}$ and $R = \qty{33}{\kilo\ohm}$, $C = \qty{33}{\nano\farad}$, $Z = \num{0.62}$:
+
+\begin{equation}
+f_{osc} = \qty{1.5}{\kilo\hertz}
+\end{equation}
+
+In both cases, $Z$ ranges from \num{0.6} to \num{0.65}.
+
+\end{document}
+

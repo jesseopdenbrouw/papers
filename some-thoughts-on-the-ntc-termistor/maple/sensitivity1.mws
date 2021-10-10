@@ -1,0 +1,34 @@
+{VERSION 6 0 "IBM INTEL NT" "6.0" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 1 255 0 0 1 0 1 0 0 
+1 0 0 0 0 1 }{CSTYLE "2D Math" -1 2 "Times" 0 1 0 0 0 0 0 0 2 0 0 0 0 
+0 0 1 }{CSTYLE "2D Output" 2 20 "" 0 1 0 0 255 1 0 0 0 0 0 0 0 0 0 1 }
+{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 
+2 2 1 1 1 1 }1 1 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Maple Output" -1 
+11 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 2 2 1 1 1 1 }3 3 0 
+0 0 0 1 0 1 0 2 2 0 1 }}
+{SECT 0 {EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 20 "f:=Ropt/(Rntc+Ropt);
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%\"fG*&%%RoptG\"\"\",&%%RntcGF'F&
+F'!\"\"" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 17 "g:=diff(f,Rntc);\n" }}{PARA 11 "" 
+1 "" {XPPMATH 20 "6#>%\"gG,$*&%%RoptG\"\"\",&%%RntcGF(F'F(!\"#!\"\"" }
+}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 32 "eval(g,[Ropt=13220,Rntc=25
+000]);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6##!$h'\")?%QI(" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 26 "k:=Ropt/(A*exp(B/T)+Ropt);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#>%\"kG*&%%RoptG\"\"\",&*&%\"AGF'-%$expG6#*&%\"BGF'%\"TG
+!\"\"F'F'F&F'F1" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "h:=diff(k,T);" }}{PARA 11 "
+" 1 "" {XPPMATH 20 "6#>%\"hG*.%%RoptG\"\"\",&*&%\"AGF'-%$expG6#*&%\"BG
+F'%\"TG!\"\"F'F'F&F'!\"#F*F'F/F'F0F2F+F'" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 44 "eval(h,[A=0.14,B=3315,Ropt=13220,T=273.15]);" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#$\"+B\"4X\"**!#7" }}}{EXCHG {PARA 0 ">
+ " 0 "" {MPLTEXT 1 0 44 "eval(h,[A=0.14,B=3315,Ropt=13220,T=298.15]);
+" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#$\"+)zSJ1*!#7" }}}{EXCHG {PARA 0 "
+> " 0 "" {MPLTEXT 1 0 14 "j:=A*exp(B/T);" }}{PARA 11 "" 1 "" {XPPMATH 
+20 "6#>%\"jG*&%\"AG\"\"\"-%$expG6#*&%\"BGF'%\"TG!\"\"F'" }}}{EXCHG 
+{PARA 0 "> " 0 "" {MPLTEXT 1 0 13 "k:=diff(j,T);" }}{PARA 11 "" 1 "" 
+{XPPMATH 20 "6#>%\"kG,$**%\"AG\"\"\"%\"BGF(%\"TG!\"#-%$expG6#*&F)F(F*!
+\"\"F(F0" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 33 "eval(k,[A=0.14,
+B=3315,T=298.15]);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#$!+ilV>N!\"(" }}
+}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "13 0 0" 0 }
+{VIEWOPTS 1 1 0 1 1 1803 1 1 1 1 }{PAGENUMBERS 0 1 2 33 1 1 }

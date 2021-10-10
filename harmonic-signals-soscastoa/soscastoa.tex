@@ -1,0 +1,329 @@
+\documentclass[12pt,fleqn]{article}
+
+\usepackage[a4paper,left=1in,right=1in,top=1in,bottom=1.5in]{geometry}
+\usepackage[charter]{mathdesign}
+\usepackage{parskip}
+\usepackage{mathtools}
+%\usepackage{amssymb}
+\setlength{\mathindent}{1em}
+\newcommand\strutrule{\rule{0mm}{1.9ex}}
+\DeclareMathSymbol{,}{\mathord}{letters}{"3B}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing,calc}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.16}
+
+\begin{document}
+
+\begin{center}
+\huge SOS-CAS-TOA
+
+\large De sinus, cosinus en tangens van een hoek
+\end{center}
+
+\vspace*{1cm}
+
+In een rechthoekige driehoek ABC gelden de sinus- cosinus- en tangensregels.
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[scale=1.5,thick]
+\draw (0,0) node (A) [left] {A} -- (36.869:5) node (B) [above] {B} node[midway,above] {5} -- (4,0) node (C) [right] {C} node[midway, right] {3} -- cycle node[midway,below] {4};
+\draw[<->] (0:1) arc (0:36.869:1) node [midway,right] {$a$};
+\draw[thin] (3.8,0) |- (4,0.2);
+\end{tikzpicture}
+\end{figure}
+
+SOS: Sinus is Overstaande zijde gedeeld door de Schuine zijde:
+\begin{equation}
+\boxed{\sin a = \dfrac{BC}{AB}}
+\end{equation}
+
+CAS: Cosinus is Aanliggende zijde gedeeld door de Schuine zijde:
+\begin{equation}
+\boxed{\cos a = \dfrac{AC}{AB}}
+\end{equation}
+
+TOA: Tangens is Overstaande zijde gedeeld door de Aanliggende zijde:
+\begin{equation}
+\boxed{\tan a = \dfrac{BC}{AC}}
+\end{equation}
+
+Pythagoras:
+\begin{equation}
+\boxed{AB^2 = AC^2 + BC^2}
+\end{equation}
+
+Voor de sinus, cosinus en tangens in de figuur gelden:
+\begin{equation}
+\jot=8pt
+\begin{split}
+\sin a &= \dfrac{BC}{AB} = \dfrac{3}{5} = 0,6 \\
+\cos a &= \dfrac{AC}{AB} = \dfrac{4}{5} = 0,8 \\
+\tan a &= \dfrac{BC}{AC} = \dfrac{3}{4} = 0,75
+\end{split}
+\end{equation}
+
+Dezelfde waarden voor de sinus, cosinus en tangens worden gevonden als we de driehoek vergroten of verkleinen met een vergrotingsfactor.
+
+Voor de tangens geldt ook:
+\begin{equation}
+\tan a = \dfrac{BC}{AC} = \dfrac{\dfrac{BC}{AB}}{\dfrac{AC}{AB}} \qquad\text{met }\dfrac{BC}{AB}=\sin a\text{ en }\dfrac{AC}{AB} = \cos a
+\end{equation}
+%
+Dus geldt:
+%
+\begin{equation}
+\boxed{\tan a = \dfrac{\sin a}{\cos a}}
+\end{equation}
+
+Voor het vinden van een hoek moeten de inverse bewerkingen gedaan worden:
+\begin{equation}
+\begin{split}
+a &= \sin^{-1} 0,6 = 36,87^{\circ} \\
+a &= \cos^{-1} 0,8 = 36,87^{\circ} \\
+a &= \tan^{-1} 0,75 = 36,87^{\circ} \\
+\end{split}
+\end{equation}
+
+\subsubsection*{Notatie}
+Een veel gebruikte notatie voor het berekenen van een hoek vanuit de sinus en cosinus is $\sin^{-1}$ en $\cos^{-1}$.
+Dat is formeel gezien niet juist. De afspraak is om een sinus-tot-de-macht aan te geven met $\sin^{macht}$. Dus dit zou betekenen dat:
+%
+\begin{equation}
+\text{sinus-tot-de-macht-min-1} = \sin^{-1} = \dfrac{1}{\sin}
+\end{equation}
+%
+Dit geldt ook zo voor cosinus en tangens. De officiële notatie is \textsl{arcsinus}, \textsl{arccosinus} en \textsl{arctangens}:
+%
+\begin{equation}
+a = \arcsin x \qquad a = \arccos x \qquad a = \arctan x
+\end{equation}
+%
+Voor het \textsl{kwadraat} (en hogere machten) kunnen we de macht bij de sinus, cosinus of tangens schrijven:
+%
+\begin{equation}
+\boxed{(\sin a)\cdot(\sin a) = \sin^2 a}
+\end{equation}
+
+\subsubsection*{Cirkel en driehoek}
+We kunnen een driehoek ook tekenen in een cirkel. De cirkel tekenen we in een xy-vlak. We nemen voor het gemak een cirkel met de straal 1. Dit wordt de eenheidscirkel genoemd. De driehoek $OBC$ wordt zo getekend dat punt $O$ op de oorsprong ligt én het middelpunt is van de cirkel. Punt $B$ ligt onder een hoek $a$ op de cirkel. Punt $C$ ligt loodrecht onder punt $B$ op de x-as. Lijnstukken $OC$ en $BC$ vormen dus een rechte hoek. Zie onderstaande figuur.
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[scale=0.9,thick]
+\draw[-,dashed] (0,-5.5) -- (0,5.5) node [above] {$y$};
+\draw[-,dashed] (-5.5,0) -- (5.5,0) node [right] {$x$};
+\draw (0,0) circle (5);
+\draw (0,0) node (A) [left,fill=white] {O} -- (36.869:5) node (B) [above,right] {B} node[midway,above] {1} -- (4,0) node (C) [right,fill=white] {C} node[midway, right] {0,6} -- cycle node[midway,below] {0,8};
+\draw[<->] (0:1) arc (0:36.869:1) node [midway,right] {$a$};
+\draw[thin] (3.8,0) |- (4,0.2);
+\end{tikzpicture}
+\end{figure}
+
+Omdat de schuine zijde nu de lengte 1 heeft, vereenvoudigen de functies voor sinus en cosinus.
+%
+\begin{equation}
+\jot=8pt
+\begin{split}
+\sin a &= \dfrac{BC}{OB} = \dfrac{0,6}{1} = 0,6 \\
+\cos a &= \dfrac{OC}{OB} = \dfrac{0,8}{1} = 0,8 \\
+\tan a &= \dfrac{BC}{OC} = \dfrac{0,6}{0,8} = 0,75
+\end{split}
+\end{equation}
+
+Ook nu geldt de stelling van Pythagoras:
+\begin{equation}
+OB^2 = OC^2 + BC^2
+\end{equation}
+
+Dus geldt:
+\begin{equation}
+1^2 = 0,6^2 + 0,8^2
+\end{equation}
+
+Maar de waarde $0,6$ volgt uit $\sin a$ en de waarde $0,8$ volgt uit $\cos a$. Dus moet gelden:
+\begin{equation}
+\boxed{\sin^2 a + \cos^2 a = 1}
+\end{equation}
+%
+Dit wordt de \textsl{hoofdstelling van de goniometrie} genoemd.
+
+De waarden van de sinus, cosinus en tangens kunnen ook negatief zijn. Dit is te zien in de onderstaande figuur. Zo is $\sin 215^\circ \approx -0,5736$ en $\cos 215^\circ \approx -0,8191$. 
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.666,thick]
+\draw[-,dashed] (0,-5.5) -- (0,5.5) node [above] {$y$};
+\draw[-,dashed] (-5.5,0) -- (5.5,0) node [right] {$x$};
+\draw[->] (0:1) arc (0:215:1) node [midway,above] {$a$};
+\draw[-latex] (0,0) -- (215:5) node [midway,above right] {};
+\draw[dashed] (215:5) -| (0,0);
+\node at (0,{5*sin(215)}) [right] {$\sin a$};
+\draw[dashed] (215:5) |- (0,0);
+\node at ({5*cos(215)},0)[above] {$\cos a$};
+\end{tikzpicture}
+\end{figure}
+
+ 
+Als we in een xy-vlak een punt $P$ aangeven met de x-coördinaat afhankelijk van de cosinus en de y-coördinaat van de sinus van de hoek, en we laten de hoek oplopen van $0^\circ$ tot en met $360^\circ$, dan krijgen we een \textsl{cirkel}. De straal van de cirkel is~1. Dus geldt:
+%
+\begin{equation}
+P(x, y) = \begin{dcases}
+x = \cos a \\
+y = \sin a
+\end{dcases}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.666,thick]
+\draw[-,dashed] (0,-5.5) -- (0,5.5) node [above] {$y$};
+\draw[-,dashed] (-5.5,0) -- (5.5,0) node [right] {$x$};
+%\draw[dashed] (0,0) circle (5);
+\draw[<->] (0:5) arc (0:330:5) node [right] {$P$};
+\draw[dashed,-latex] (0,0) -- (330:5) node [midway,above right] {1};
+\end{tikzpicture}
+\end{figure}
+
+\subsubsection*{Grafieken sinus en cosinus}
+Als we de waarde van de sinus uitzetten (op de y-as) als functie van de hoek (op de x-as) dan krijgen we een zogenoemde \textsl{golfvorm}:
+
+\begin{tikzpicture}% function
+\begin{axis}[
+	xlabel=$a$,
+	ylabel=$\sin a$,
+	width=0.9\textwidth,
+	height=0.4\textwidth,
+	xmin=0,
+	xmax=360,
+	xtick={0,45,...,360},
+	axis y line*=left,
+	axis x line*=middle,
+	x axis line style={-},
+	y axis line style={-},
+	axis line style = thick,
+	samples=101
+]
+\addplot[domain=0:360,red] {sin(x)};
+\addplot[domain=0:360,blue,loosely dashed] {1};
+\addplot[domain=0:360,blue,loosely dashed] {-1};
+\end{axis}
+\end{tikzpicture}
+
+Als we de waarde van de cosinus uitzetten (op de y-as) als functie van de hoek (op de x-as) dan krijgen we een zogenoemde \textsl{golfvorm}:
+
+\begin{tikzpicture}% function
+\begin{axis}[
+	xlabel=$a$,
+	ylabel=$\cos a$,
+	width=0.9\textwidth,
+	height=0.4\textwidth,
+	xmin=0,
+	xmax=360,
+	xtick={0,45,...,360},
+	axis y line*=left,
+	axis x line*=middle,
+	x axis line style={-},
+	y axis line style={-},
+	axis line style = thick,
+	samples=101
+]
+\addplot[domain=0:360,red] {cos(x)};
+\addplot[domain=0:360,blue,loosely dashed] {1};
+\addplot[domain=0:360,blue,loosely dashed] {-1};
+\end{axis}
+\end{tikzpicture}
+
+De sinus en cosinus zijn zogenoemde periodieke functies: ze herhalen zich om de $360^\circ$. De sinus en cosinus zijn zogenoemde harmonische signalen. Dit zijn signaalvormen die voorkomen in veel natuurkundige processen.
+
+Enkele formules:
+%
+\begin{equation}
+\begin{split}
+\sin a &= \sin(a+360^\circ) \\
+\cos a &= \cos(a+360^\circ) \\
+\tan a &= \tan(a+180^\circ)
+\end{split}\end{equation}
+%
+Verder is te zien dat de cosinus en sinus $90^\circ$ verschoven zijn:
+\begin{equation}\label{key}
+\begin{split}
+\cos a &= \sin (a+90^\circ) \\
+\sin a &= \cos (a-90^\circ)
+\end{split}
+\end{equation}
+%De tangens loopt op van 0 tot oneindig.
+%
+%\begin{tikzpicture}% function
+%\begin{axis}[
+%	xlabel=$a$,
+%	ylabel=$\tan a$,
+%	width=0.9\textwidth,
+%	height=0.4\textwidth,
+%	xmin=0,
+%	xmax=360,
+%	restrict y to domain=-20:20,
+%	xtick={0,45,...,360},
+%	axis y line*=left,
+%	axis x line*=middle,
+%	x axis line style={-},
+%	y axis line style={-},
+%	axis line style = thick,
+%	samples=201
+%]
+%\addplot[domain=0:360,red] {tan(x)};
+%\addplot[domain=0:360,blue,loosely dashed] {1};
+%\addplot[domain=0:360,blue,loosely dashed] {-1};
+%\end{axis}
+%\end{tikzpicture}
+
+\subsubsection*{Stijgingspercentage en hellingshoek}
+De stijgingspercentage wordt aangegeven in procenten, bijvoorbeeld 14\%.
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[scale=1.5,thick]
+\draw (0,0) {} -- (5,1) node[midway,above] {C} -- (5,0) node (C) {} node[midway, right] {B} -- cycle node[midway,below] {A} (C);
+\draw[<->] (0:2) arc (0:11.3:2) node [midway,right] {$a$};
+\draw[thin] (4.8,0) |- (5,0.2);
+\end{tikzpicture}
+\end{figure}
+
+\begin{equation}
+\text{stijgingspercentage} = 100\% \times \dfrac{B}{A}
+\end{equation}
+en
+\begin{eqnarray}
+\text{stijgingspercentage} = 100\% \times \tan a
+\end{eqnarray}
+
+De hellingshoek is:
+\begin{equation}
+a = \tan^{-1} \dfrac{\text{stijgingspercentage}}{100\%}
+\end{equation}
+
+Voorbeeld:
+
+Stijgingspercentage is 14\%. Dan is de hoek:
+\begin{equation}
+a = \tan^{-1} \dfrac{14\%}{100\%} = \tan^{-1} 0,14 = 8^\circ
+\end{equation}
+
+Voorbeeld:
+
+Een skipiste is 2 km lang en overbrugt een hoogteverschil van 100 m. Dus $C=2000$ en $B=100$. Nu de hoek $a$ berekenen:
+\begin{equation}
+a = \sin^{-1} \dfrac{B}{C} = \sin^{-1} \dfrac{100}{2000} = 2,866^\circ
+\end{equation}
+
+Het stijgingspercentage is dan:
+%
+\begin{equation}
+\text{stijgingspercentage} = 100\% \times \tan a = 100\% \times \tan 2,886 = 5\%
+\end{equation}
+\end{document}

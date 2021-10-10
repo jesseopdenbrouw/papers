@@ -1,0 +1,255 @@
+%%
+%%
+%% integral.tex
+%%
+%% Shows some integrals using Riemann left sum
+%%
+%% Takes a long time to compile!!!!
+%%
+
+\documentclass[12pt]{article}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.3}
+\usepackage{animate}
+%\usepackage{ifthen}
+\usepackage[margin=1in,showframe]{geometry}
+\usepackage[english]{babel}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage[charter]{mathdesign}
+\usepackage{nimbusmono}
+\usepackage{listings}
+\lstset{
+    language=C,
+    basicstyle=\ttfamily
+}
+
+\title{Numerical Integration Using The Riemann Left Sum Approach}
+\author{Jesse op den Brouw}
+\date{\today}
+
+%% Number of steps in the figures
+\def\steps{100}
+
+\begin{document}
+\vfill
+\maketitle
+\vfill
+\begin{animateinline}[poster=first, controls]{8}%
+\multiframe{\steps}{iSteps=10+2}{%
+\begin{tikzpicture}[font=\footnotesize,
+  declare function = { f(\x) = -0.1*\x^3+0.5*\x^2; }
+]
+\begin{axis}[width=\textwidth, height=0.5\textwidth,
+   tick label style = {
+      /pgf/number format/use comma,
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,
+      /pgf/number format/precision = 1},
+    xmax=5.2,ymax=2.1,ymin=-0.001,xmin=-1.1,
+    axis y line=middle, axis x line=bottom,
+    clip=false,
+    axis on top
+    ]
+\addplot [draw=red, fill=red!20!white, ybar interval, samples=\iSteps, domain=0:5.0] {f(x)} \closedcycle;
+\addplot [smooth, thick,domain=-1:5.1,samples=101,draw=blue] {f(x)};
+\node[right] at (axis cs:0.5,1.5) {\iSteps\ rectangles};
+\end{axis}
+\end{tikzpicture}
+}
+\end{animateinline}
+
+\bigskip\bigskip
+Please use a fully compliant PDF viewer like Acrobat Reader or Okular and press the play-button ($\triangleright$) or click on the image. The function is:
+\begin{equation}
+f(x) = -\frac{1}{10}x^3 + \frac{1}{2}x^2
+\end{equation}
+\vfill
+\newpage
+
+\section{Principle of operation}
+Integration using the Riemann left sum is one of the easiest method to understand. This method calculates the area under the function between values denoted by $x=a$ and $x=b$. Note that we assume the function is strictly non-negative.
+
+When performing the integration, we divide the $x$ axis between $x=a$ and $x=b$ in $n$ equal parts. That is:
+
+\begin{equation}
+\Delta x = \frac{b - a}{n}
+\end{equation}
+
+Of every part, we calculate the area:
+
+\begin{equation}
+A_{x*} = f(x*)\Delta x \qquad {x*} \text{ at a specific point between } a \text{ and } b
+\end{equation}
+
+Now summing up all areas will give an approximation of the total area under the function $f(x)$. Note that we assume the function is strictly non-negative. Thus we have:
+
+\begin{equation}
+\int_a^b f(x)\; \mathrm{d}x \approx \sum_{i=0}^{n-1}\, f(x*)\Delta x
+\end{equation}
+
+where $x*$ can be calculated with $a+i\Delta x$. Letting $n\rightarrow\infty$, where $\Delta x\rightarrow 0$, will give us an exact answer. So we have:
+
+\begin{equation}
+\int_a^b f(x)\; \mathrm{d}x = \lim_{n\rightarrow\infty}\, \sum_{i=0}^{n-1}\, f(x*)\Delta x
+\end{equation}
+
+\section{Computation of the integral by a program}
+In any computer language that has computational powers, the area can be calculated by means of a program. For the historical reasons, we use the C programming language. We have to convert the summation so that we can program it in C. The summation can be written as:
+
+\begin{equation}
+A = \int_{a}^{b}f(x)\;\mathrm{d}x = \lim\limits_{n\to\infty}\,\sum_{i=0}^{n-1}\,f\underbrace{\left(a+k\cdot\underbrace{\frac{b-a}{n}}_{\Delta x}\right)}_{x*}\cdot\underbrace{\frac{b-a}{n}}_{\Delta x}
+\end{equation}
+
+Here we have augmented $x*$ and $\Delta x$. $\Delta x$ is a constant when $n$ is chosen. So $\Delta x$ is a constant in the program.
+
+The function shown on the first page is:
+
+\begin{equation}
+f(x) = -\frac{1}{10}x^3 + \frac{1}{2}x^2
+\end{equation}
+
+The program to calculate the area under the function is shown below. The program starts with the definition of the function that accepts an $x$ and returns an $y$. It is easy to adapt this function to suit your needs. In the function \lstinline|main| we iterate over the number of points (or areas) and sum all the computed areas.
+
+\begin{lstlisting}
+#include <stdio.h>
+
+double f(double x) {
+   return -0.1*x*x*x + 0.5*x*x;
+}
+
+int main(void) {
+
+    int k;          /* for iteration of sum */
+    int n = 1000;   /* number of points */
+   
+    double a = 0.0; /* start point */
+    double b = 5.0; /* end point */
+
+    double deltax = (b - a) / n;
+
+    double sum = 0.0;
+
+    for (k = 0; k < n; k++) {
+        sum = sum + f(a + k*deltax) * deltax;
+    }
+
+    printf("Left rule Riemann sum = %.20e\n", sum);
+
+    return 0;
+}
+\end{lstlisting}
+
+Calculating the integral using this program yields 5.208328. The exact answer is 125/24 which is 5,208$\overline{3}$. (The 3 is repeated indefinitely.)
+
+\section{Negative values of the function}
+If a function exhibits negative $y$ values, the corresponding areas are designated as negative. So the complete answer to the integral is:
+
+\begin{equation}
+A_{total} = A_{positive} + A_{negative}
+\end{equation}
+
+where $A_{negative}$ is negative.
+
+
+\section{Applications in electrical engineering}
+One application is the average value of a sine wave voltage. The average voltage is 0 V. This is shown in the figure below. When integrating over a full period of the sine wave the positive areas equals the negative areas, hence the total area is 0.
+
+This means that:
+
+\begin{equation}
+\int_0^{2\pi} \sin(x)\;\mathrm{d}x = 0
+\end{equation}
+
+An illustration of the summation is shown in the figure below.
+
+\begin{animateinline}[poster=first, controls]{8}%
+\multiframe{\steps}{iSteps=10+2}{%
+\begin{tikzpicture}[font=\footnotesize,
+  declare function = { f(\x) = sin(deg(\x)); }
+]
+\begin{axis}[width=\textwidth, height=0.5\textwidth,
+   tick label style = {
+      /pgf/number format/use comma,
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,
+      /pgf/number format/precision = 1},
+    xtick={0,pi,2*pi+0.1},
+    xticklabels={$0$,$\pi$,$2\pi$},
+    ytick={-1.0,-0.5,0,0.5,1.0},
+    xmax=6.4,ymax=1.1,ymin=-1.1,xmin=-0.0,
+    axis y line=middle, axis x line=bottom,
+    clip=false,
+    axis lines=middle
+    ]
+\addplot [draw=red, fill=red!20!white, ybar interval, samples=\iSteps, domain=0:2*pi] {f(x)} \closedcycle;
+\addplot [smooth, thick,domain=0:2*pi,samples=101,draw=blue] {f(x)};
+%\node[right] at (axis cs:0.5,1.5) {\iSteps\ rectangles};
+\end{axis}
+\end{tikzpicture}
+}
+\end{animateinline}
+
+Another application is the average power dissipated in a resistor when applying a sine wave voltage. Finding the average power is calculated by:
+
+\begin{equation}
+P_{avg} = \frac{1}{T}\int_{0}^{T} u(t)\cdot i(t)\; \mathrm{d}t
+\end{equation}
+
+Since a resistor introduces no phase shift between the voltage over and the current through the resistor, we can write:
+
+\begin{equation}
+P_{avg} = \frac{1}{T} \int_0^T \hat{u}\sin t\cdot \hat{\imath} \sin t \; \mathrm{d}t
+\end{equation}
+
+where $\hat{u}$ and $\hat{i}$ are the maximum values of the voltage and the current. Now $\hat{u}$ and $\hat{\imath}$ are constant over time, so we can put them before the integral and we can rewrite the function:
+
+\begin{equation}
+P_{avg} = \hat{u}\hat{\imath}\frac{1}{T} \int_0^T \sin^2 t\; \mathrm{d}t
+\end{equation}
+
+Since by definition $T=2\pi$ for one period, we can write:
+
+\begin{equation}
+P_{avg} = \hat{u}\hat{\imath}\frac{1}{2\pi} \int_0^{2\pi} \sin^2 t\; \mathrm{d}t
+\end{equation}
+
+Now we can plot the function and integrate it by the Riemann left rule:
+
+\begin{animateinline}[poster=first, controls]{8}%
+\multiframe{\steps}{iSteps=10+2}{%
+\begin{tikzpicture}[font=\footnotesize,
+  declare function = { f(\x) = sin(deg(\x))^2; }
+]
+\begin{axis}[width=\textwidth, height=0.5\textwidth,
+   tick label style = {
+      /pgf/number format/use comma,
+      /pgf/number format/fixed,
+      /pgf/number format/fixed zerofill,
+      /pgf/number format/precision = 1},
+    xtick={0,pi,2*pi+0.1},
+    xticklabels={$0$,$\pi$,$2\pi$},
+    ytick={0,0.5,1.0},
+    xmax=6.4,ymax=1.1,ymin=-0.1,xmin=-0.0,
+    axis y line=middle, axis x line=bottom,
+    clip=false,
+    axis lines=middle
+    ]
+\addplot [draw=red, fill=red!20!white, ybar interval, samples=\iSteps, domain=0:2*pi] {f(x)} \closedcycle;
+\addplot [smooth, thick,domain=0:2*pi,samples=101,draw=blue] {f(x)};
+%\node[right] at (axis cs:0.5,1.5) {\iSteps\ rectangles};
+\end{axis}
+\end{tikzpicture}
+}
+\end{animateinline}
+
+The summation by 1000 steps equals 3.141593, the exact value is $\pi$. Using the constant before the integral we get:
+
+\begin{equation}
+P_{avg} = \hat{u}\hat{\imath}\frac{1}{2\pi} \int_0^{2\pi} \sin^2 t\; \mathrm{d}t = \hat{u}\hat{\imath}\frac{1}{2\pi}\pi=\frac{1}{2}\hat{u}\hat{\imath}
+\end{equation}
+
+
+\end{document}
